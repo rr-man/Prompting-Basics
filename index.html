@@ -139,6 +139,24 @@
   .adv-hero .lede{max-width:72ch}
   .adv-hero .lede a{color:var(--c-context);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px}
   .adv-hero .lede a:hover{text-decoration-color:var(--c-context)}
+
+  /* table of contents */
+  .toc{margin-top:30px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px 22px;max-width:560px}
+  .toc-label{
+    font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-3);display:block;margin-bottom:12px;
+  }
+  .toc-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px}
+  .toc-list li{margin:0}
+  .toc-list a{
+    display:flex;align-items:baseline;gap:11px;padding:7px 8px;border-radius:8px;text-decoration:none;
+    color:var(--ink-2);font-size:14px;font-weight:500;transition:background .14s,color .14s;
+  }
+  .toc-list a:hover{background:var(--mist);color:var(--ink)}
+  .toc-num{
+    font-family:"IBM Plex Mono";font-size:12px;color:var(--c-context);font-weight:600;flex:none;width:20px;
+  }
+  @media(max-width:560px){.toc{max-width:none}}
   .eyebrow{
     font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--ink-3);margin-bottom:18px;
@@ -194,7 +212,7 @@
   }
 
   /* ---------- generic section ---------- */
-  section{padding:54px 0;border-top:1px solid var(--line-soft)}
+  section{padding:54px 0;border-top:1px solid var(--line-soft);scroll-margin-top:110px}
   .sec-head{margin-bottom:30px;max-width:64ch}
   .sec-num{font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-3);letter-spacing:.1em;display:block;margin-bottom:8px}
   .sec-head h2{font-size:clamp(24px,3.4vw,34px);margin:0 0 10px;font-weight:600}
@@ -560,6 +578,16 @@
       <span><span class="sw" style="background:var(--c-expect)"></span> Expectations — format &amp; tone</span>
       <span><span class="sw" style="background:var(--c-source)"></span> Source — what to use</span>
     </div>
+
+    <nav class="toc" aria-label="On this page">
+      <span class="toc-label">On this page</span>
+      <ol class="toc-list">
+        <li><a href="#framework"><span class="toc-num">01</span> The framework</a></li>
+        <li><a href="#library"><span class="toc-num">02</span> The library</a></li>
+        <li><a href="#mistakes"><span class="toc-num">03</span> Common mistakes</a></li>
+        <li><a href="#governance"><span class="toc-num">—</span> Use it well, use it safely</a></li>
+      </ol>
+    </nav>
   </div>
 </header>
 
@@ -622,96 +650,11 @@
   </div>
 </section>
 
-<!-- ===== VIDEO TUTORIALS ===== -->
-<section id="videos">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-num">03 / SEE IT IN ACTION</span>
-      <h2>Video tutorials, by application.</h2>
-      <p>Official short demos from Microsoft showing exactly what Copilot can do in each app. Pick the one for what you're working in — each links straight to that demo on Microsoft's own Copilot adoption hub.</p>
-    </div>
-
-    <div class="video-grid">
-      <div class="video-card">
-        <div class="video-card-head">
-          <span class="video-ic">📄</span>
-          <h3>Word</h3>
-        </div>
-        <ul class="video-points">
-          <li>Generate structured, multi-page content</li>
-          <li>Refine or expand sections with follow-up prompts</li>
-          <li>Summarize existing documents</li>
-          <li>Retrieve data using natural-language questions</li>
-        </ul>
-        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#word" target="_blank" rel="noopener">Watch the Word demo →</a>
-      </div>
-
-      <div class="video-card">
-        <div class="video-card-head">
-          <span class="video-ic">📊</span>
-          <h3>Excel</h3>
-        </div>
-        <ul class="video-points">
-          <li>Import data from the web or organizational sources</li>
-          <li>Generate tables of key findings</li>
-          <li>Get plain-English explanations of formulas</li>
-          <li>Turn results into charts for easy sharing</li>
-        </ul>
-        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#excel" target="_blank" rel="noopener">Watch the Excel demo →</a>
-      </div>
-
-      <div class="video-card">
-        <div class="video-card-head">
-          <span class="video-ic">📈</span>
-          <h3>PowerPoint</h3>
-        </div>
-        <ul class="video-points">
-          <li>Generate a presentation from an existing document</li>
-          <li>Organize slide sections with an agenda</li>
-          <li>Summarize content through prompts</li>
-          <li>Prepare for likely audience questions</li>
-        </ul>
-        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#powerpoint" target="_blank" rel="noopener">Watch the PowerPoint demo →</a>
-      </div>
-
-      <div class="video-card">
-        <div class="video-card-head">
-          <span class="video-ic">✉️</span>
-          <h3>Outlook</h3>
-        </div>
-        <ul class="video-points">
-          <li>Concisely summarize email threads and attachments</li>
-          <li>Extract action items from a conversation</li>
-          <li>Draft replies and adjust the tone</li>
-          <li>Automate routine actions with Calendar Instructions</li>
-        </ul>
-        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#outlook" target="_blank" rel="noopener">Watch the Outlook demo →</a>
-      </div>
-
-      <div class="video-card">
-        <div class="video-card-head">
-          <span class="video-ic">👥</span>
-          <h3>Teams</h3>
-        </div>
-        <ul class="video-points">
-          <li>Pull agenda topics from the invite or meeting chat</li>
-          <li>Track discussion topics live during the meeting</li>
-          <li>Capture notes and action items automatically</li>
-          <li>Generate an executive summary at meeting wrap-up</li>
-        </ul>
-        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#teams" target="_blank" rel="noopener">Watch the Teams demo →</a>
-      </div>
-    </div>
-
-    <p class="tip" style="margin-top:4px">All five demos live on Microsoft's official Copilot adoption hub — <a href="https://adoption.microsoft.com/en-us/copilot/" target="_blank" rel="noopener" style="color:var(--c-context);text-decoration:underline">adoption.microsoft.com/copilot</a> — alongside demos for the Researcher and Analyst agents, if you want to go deeper.</p>
-  </div>
-</section>
-
 <!-- ===== MISTAKES ===== -->
 <section id="mistakes">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num">04 / COMMON MISTAKES</span>
+      <span class="sec-num">03 / COMMON MISTAKES</span>
       <h2>Five habits to drop.</h2>
       <p>Most "Copilot got it wrong" stories are really "Copilot wasn't given enough to go on." These are the fixes that move the needle fastest.</p>
     </div>
@@ -750,7 +693,7 @@
 
 
 <!-- ===== GOVERNANCE ===== -->
-<section>
+<section id="governance">
   <div class="wrap">
     <div class="gov">
       <div>
@@ -902,6 +845,21 @@
     <div class="eyebrow">Sourced from Microsoft's own engineering guidance</div>
     <h1>Beyond the basics.</h1>
     <p class="lede">The four-block framework gets you a good first draft. These techniques — adapted from <a href="https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-writing-prompts-in-microsoft-365-copilot" target="_blank" rel="noopener">Microsoft's own Copilot prompting guide</a> and the deeper <a href="https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/prompt-engineering" target="_blank" rel="noopener">Azure AI Foundry prompt engineering documentation</a> — are what separates an okay answer from a genuinely useful one. None of these require any technical setup; they're just better ways to phrase what you type into Copilot.</p>
+
+    <nav class="toc" aria-label="On this page">
+      <span class="toc-label">On this page</span>
+      <ol class="toc-list">
+        <li><a href="#adv-examples"><span class="toc-num">01</span> Show, don't just tell</a></li>
+        <li><a href="#adv-steps"><span class="toc-num">02</span> Break it down</a></li>
+        <li><a href="#adv-structure"><span class="toc-num">03</span> Shape the output</a></li>
+        <li><a href="#adv-delimiters"><span class="toc-num">04</span> Label your parts</a></li>
+        <li><a href="#adv-out"><span class="toc-num">05</span> Give it an escape hatch</a></li>
+        <li><a href="#adv-grounding"><span class="toc-num">06</span> Get closer to your source</a></li>
+        <li><a href="#adv-iterate"><span class="toc-num">07</span> Treat it as a conversation</a></li>
+        <li><a href="#videos"><span class="toc-num">08</span> See it in action</a></li>
+        <li><a href="#adv-verify"><span class="toc-num">—</span> One rule that overrides all the others</a></li>
+      </ol>
+    </nav>
   </div>
 </header>
 
@@ -1031,8 +989,93 @@
   </div>
 </section>
 
+<!-- ===== VIDEO TUTORIALS ===== -->
+<section id="videos">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">08 / SEE IT IN ACTION</span>
+      <h2>Video tutorials, by application.</h2>
+      <p>Official short demos from Microsoft showing exactly what Copilot can do in each app. Pick the one for what you're working in — each links straight to that demo on Microsoft's own Copilot adoption hub.</p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">📄</span>
+          <h3>Word</h3>
+        </div>
+        <ul class="video-points">
+          <li>Generate structured, multi-page content</li>
+          <li>Refine or expand sections with follow-up prompts</li>
+          <li>Summarize existing documents</li>
+          <li>Retrieve data using natural-language questions</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#word" target="_blank" rel="noopener">Watch the Word demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">📊</span>
+          <h3>Excel</h3>
+        </div>
+        <ul class="video-points">
+          <li>Import data from the web or organizational sources</li>
+          <li>Generate tables of key findings</li>
+          <li>Get plain-English explanations of formulas</li>
+          <li>Turn results into charts for easy sharing</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#excel" target="_blank" rel="noopener">Watch the Excel demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">📈</span>
+          <h3>PowerPoint</h3>
+        </div>
+        <ul class="video-points">
+          <li>Generate a presentation from an existing document</li>
+          <li>Organize slide sections with an agenda</li>
+          <li>Summarize content through prompts</li>
+          <li>Prepare for likely audience questions</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#powerpoint" target="_blank" rel="noopener">Watch the PowerPoint demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">✉️</span>
+          <h3>Outlook</h3>
+        </div>
+        <ul class="video-points">
+          <li>Concisely summarize email threads and attachments</li>
+          <li>Extract action items from a conversation</li>
+          <li>Draft replies and adjust the tone</li>
+          <li>Automate routine actions with Calendar Instructions</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#outlook" target="_blank" rel="noopener">Watch the Outlook demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">👥</span>
+          <h3>Teams</h3>
+        </div>
+        <ul class="video-points">
+          <li>Pull agenda topics from the invite or meeting chat</li>
+          <li>Track discussion topics live during the meeting</li>
+          <li>Capture notes and action items automatically</li>
+          <li>Generate an executive summary at meeting wrap-up</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#teams" target="_blank" rel="noopener">Watch the Teams demo →</a>
+      </div>
+    </div>
+
+    <p class="tip" style="margin-top:4px">All five demos live on Microsoft's official Copilot adoption hub — <a href="https://adoption.microsoft.com/en-us/copilot/" target="_blank" rel="noopener" style="color:var(--c-context);text-decoration:underline">adoption.microsoft.com/copilot</a> — alongside demos for the Researcher and Analyst agents, if you want to go deeper.</p>
+  </div>
+</section>
+
 <!-- VERIFY CALLOUT -->
-<section>
+<section id="adv-verify">
   <div class="wrap">
     <div class="gov">
       <div>
