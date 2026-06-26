@@ -65,9 +65,11 @@
   .topbar-brandrow{display:flex;align-items:center}
 
   .topbar-status{
-    margin-left:auto;display:flex;align-items:center;gap:9px;
+    margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:5px;
     font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-3);letter-spacing:.02em;
   }
+  .prepared-by{font-size:11px;color:var(--ink-3);font-weight:500}
+  .topbar-status .status-row{display:flex;align-items:center;gap:9px}
   .status-pill{display:inline-flex;align-items:center;gap:6px;color:var(--c-expect);font-weight:600}
   .status-dot{
     width:7px;height:7px;border-radius:50%;background:var(--c-expect);flex:none;
@@ -110,12 +112,12 @@
   .topnav .go{background:var(--ink);color:var(--paper)}
   .topnav .go:hover{background:#0c1620;color:var(--paper)}
 
-  /* view tabs (Basic Prompting / Build a prompt) */
-  .viewtabs{display:flex!important;gap:6px;background:var(--mist);padding:4px;border-radius:11px;width:100%;max-width:560px}
+  /* view tabs (Basic Prompting / Advanced Prompting / Video Tutorials / Build a prompt) */
+  .viewtabs{display:flex!important;gap:6px;background:var(--mist);padding:4px;border-radius:11px;width:100%;max-width:680px}
   .vtab{
     appearance:none;border:none;background:transparent;cursor:pointer;flex:1;
     font-family:"Inter";font-size:13.5px;font-weight:600;color:var(--ink-2);
-    padding:9px 16px;border-radius:8px;transition:background .15s,color .15s,transform .15s;
+    padding:9px 13px;border-radius:8px;transition:background .15s,color .15s,transform .15s;
     display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
   }
   .vtab:hover{color:var(--ink)}
@@ -128,7 +130,7 @@
   .vtab.cta.active:hover{background:#0c1620;transform:none}
   .vtab.cta .spark{width:13px;height:13px;flex:none}
 
-  @media(max-width:680px){.viewtabs{max-width:none;flex-wrap:wrap}.vtab{flex:1 1 calc(50% - 3px)}}
+  @media(max-width:760px){.viewtabs{max-width:none;flex-wrap:wrap}.vtab{flex:1 1 calc(50% - 3px)}}
   @media(max-width:480px){.vtab{padding:8px 11px;font-size:12.5px;flex:1 1 100%}}
 
   .view[hidden]{display:none}
@@ -521,16 +523,18 @@
         </span>
       </div>
       <div class="topbar-status">
-        <span class="status-pill"><span class="status-dot"></span> Live</span>
-        <span class="status-sep">·</span>
-        <span class="status-text">v1.0</span>
-        <span class="status-sep">·</span>
-        <span class="status-text">4-block framework</span>
+        <span class="prepared-by">Prepared by the COEO AI team</span>
+        <div class="status-row">
+          <span class="status-pill"><span class="status-dot"></span> Live</span>
+          <span class="status-sep">·</span>
+          <span class="status-text">4-block framework</span>
+        </div>
       </div>
     </div>
     <nav class="topnav viewtabs" role="tablist" aria-label="Page view">
       <button class="vtab active" role="tab" aria-selected="true" data-view="info">Basic Prompting</button>
       <button class="vtab" role="tab" aria-selected="false" data-view="advanced">Advanced Prompting</button>
+      <button class="vtab" role="tab" aria-selected="false" data-view="videos">Video Tutorials</button>
       <button class="vtab cta" role="tab" aria-selected="false" data-view="build">
         <svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path fill="currentColor" d="M12 2c.6 4.8 4.2 8.4 9 9-4.8.6-8.4 4.2-9 9-.6-4.8-4.2-8.4-9-9 4.8-.6 8.4-4.2 9-9z"/>
@@ -856,7 +860,6 @@
         <li><a href="#adv-out"><span class="toc-num">05</span> Give it an escape hatch</a></li>
         <li><a href="#adv-grounding"><span class="toc-num">06</span> Get closer to your source</a></li>
         <li><a href="#adv-iterate"><span class="toc-num">07</span> Treat it as a conversation</a></li>
-        <li><a href="#videos"><span class="toc-num">08</span> See it in action</a></li>
         <li><a href="#adv-verify"><span class="toc-num">—</span> One rule that overrides all the others</a></li>
       </ol>
     </nav>
@@ -989,15 +992,38 @@
   </div>
 </section>
 
-<!-- ===== VIDEO TUTORIALS ===== -->
+<!-- VERIFY CALLOUT -->
+<section id="adv-verify">
+  <div class="wrap">
+    <div class="gov">
+      <div>
+        <h2>One rule that overrides all the others.</h2>
+        <p>Microsoft's own guidance is direct about this: Copilot responses can include incorrect content, and the same prompt can produce different answers each time you run it. Every technique on this page makes a response more likely to be useful — none of them make it guaranteed to be correct.</p>
+      </div>
+      <ul>
+        <li><span class="gi">→</span><span><b>Always verify.</b> Cross-check names, numbers, dates, and claims against the real source before they go anywhere that matters.</span></li>
+        <li><span class="gi">→</span><span><b>Don't expect repeatability.</b> Running the same prompt twice can give two different answers — that's normal, not a bug.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</div>
+<!-- ===== /VIEW: ADVANCED TECHNIQUES ===== -->
+
+<!-- ===== VIEW: VIDEO TUTORIALS ===== -->
+<div class="view" id="view-videos" hidden>
+
+<header class="hero adv-hero">
+  <div class="wrap">
+    <div class="eyebrow">Official demos from Microsoft</div>
+    <h1>See it in action.</h1>
+    <p class="lede">Short, official demos from Microsoft showing exactly what Copilot can do in each app. Pick the one for what you're working in — each links straight to that demo on Microsoft's own Copilot adoption hub.</p>
+  </div>
+</header>
+
 <section id="videos">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="sec-num">08 / SEE IT IN ACTION</span>
-      <h2>Video tutorials, by application.</h2>
-      <p>Official short demos from Microsoft showing exactly what Copilot can do in each app. Pick the one for what you're working in — each links straight to that demo on Microsoft's own Copilot adoption hub.</p>
-    </div>
-
     <div class="video-grid">
       <div class="video-card">
         <div class="video-card-head">
@@ -1070,28 +1096,12 @@
       </div>
     </div>
 
-    <p class="tip" style="margin-top:4px">All five demos live on Microsoft's official Copilot adoption hub — <a href="https://adoption.microsoft.com/en-us/copilot/" target="_blank" rel="noopener" style="color:var(--c-context);text-decoration:underline">adoption.microsoft.com/copilot</a> — alongside demos for the Researcher and Analyst agents, if you want to go deeper.</p>
-  </div>
-</section>
-
-<!-- VERIFY CALLOUT -->
-<section id="adv-verify">
-  <div class="wrap">
-    <div class="gov">
-      <div>
-        <h2>One rule that overrides all the others.</h2>
-        <p>Microsoft's own guidance is direct about this: Copilot responses can include incorrect content, and the same prompt can produce different answers each time you run it. Every technique on this page makes a response more likely to be useful — none of them make it guaranteed to be correct.</p>
-      </div>
-      <ul>
-        <li><span class="gi">→</span><span><b>Always verify.</b> Cross-check names, numbers, dates, and claims against the real source before they go anywhere that matters.</span></li>
-        <li><span class="gi">→</span><span><b>Don't expect repeatability.</b> Running the same prompt twice can give two different answers — that's normal, not a bug.</span></li>
-      </ul>
-    </div>
+    <p class="tip" style="margin-top:18px">All five demos live on Microsoft's official Copilot adoption hub — <a href="https://adoption.microsoft.com/en-us/copilot/" target="_blank" rel="noopener" style="color:var(--c-context);text-decoration:underline">adoption.microsoft.com/copilot</a> — alongside demos for the Researcher and Analyst agents, if you want to go deeper.</p>
   </div>
 </section>
 
 </div>
-<!-- ===== /VIEW: ADVANCED TECHNIQUES ===== -->
+<!-- ===== /VIEW: VIDEO TUTORIALS ===== -->
 
 <!-- ===== FOOTER ===== -->
 <footer>
@@ -1107,7 +1117,7 @@
 
   /* ---------------- VIEW TABS ---------------- */
   const viewTabs = document.querySelectorAll('.vtab');
-  const views = { info: document.getElementById('view-info'), build: document.getElementById('view-build'), advanced: document.getElementById('view-advanced') };
+  const views = { info: document.getElementById('view-info'), build: document.getElementById('view-build'), advanced: document.getElementById('view-advanced'), videos: document.getElementById('view-videos') };
 
   function switchView(target){
     viewTabs.forEach(t=>{
