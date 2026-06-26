@@ -61,7 +61,27 @@
     backdrop-filter:saturate(140%) blur(10px);
     border-bottom:1px solid var(--line-soft);
   }
-  .topbar .row{display:flex;align-items:center;gap:18px;height:60px}
+  .topbar-inner{display:flex;flex-direction:column;gap:10px;padding:14px 0 12px}
+  .topbar-brandrow{display:flex;align-items:center}
+
+  .topbar-status{
+    margin-left:auto;display:flex;align-items:center;gap:9px;
+    font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-3);letter-spacing:.02em;
+  }
+  .status-pill{display:inline-flex;align-items:center;gap:6px;color:var(--c-expect);font-weight:600}
+  .status-dot{
+    width:7px;height:7px;border-radius:50%;background:var(--c-expect);flex:none;
+    box-shadow:0 0 0 0 rgba(14,122,99,.5);animation:statusPulse 2.2s infinite;
+  }
+  @keyframes statusPulse{
+    0%{box-shadow:0 0 0 0 rgba(14,122,99,.45)}
+    70%{box-shadow:0 0 0 5px rgba(14,122,99,0)}
+    100%{box-shadow:0 0 0 0 rgba(14,122,99,0)}
+  }
+  .status-sep{color:var(--line)}
+  .status-text{color:var(--ink-3)}
+  @media(max-width:760px){.topbar-status .status-text:last-child, .topbar-status .status-sep:last-child{display:none}}
+  @media(max-width:560px){.topbar-status{display:none}}
   .brand{display:flex;align-items:center;gap:11px;font-family:"Space Grotesk";font-weight:600;font-size:15px}
   .brand .dot{
     width:26px;height:26px;border-radius:7px;flex:none;
@@ -81,7 +101,7 @@
   @media(max-width:860px){ .cp-label{display:none} .copilot-badge{padding:5px;border-radius:50%} }
   @media(max-width:520px){ .copilot-badge{display:none} }
 
-  .topnav{margin-left:auto;display:flex;gap:4px}
+  .topnav{display:flex;gap:4px}
   .topnav a{
     font-size:13.5px;color:var(--ink-2);text-decoration:none;padding:7px 12px;border-radius:8px;
     font-weight:500;transition:background .15s,color .15s;
@@ -89,15 +109,14 @@
   .topnav a:hover{background:var(--mist);color:var(--ink)}
   .topnav .go{background:var(--ink);color:var(--paper)}
   .topnav .go:hover{background:#0c1620;color:var(--paper)}
-  @media(max-width:720px){.topnav{display:none}}
 
   /* view tabs (Basic Prompting / Build a prompt) */
-  .viewtabs{display:flex!important;gap:6px;background:var(--mist);padding:4px;border-radius:11px;flex-wrap:wrap;justify-content:flex-end}
+  .viewtabs{display:flex!important;gap:6px;background:var(--mist);padding:4px;border-radius:11px;width:100%;max-width:560px}
   .vtab{
-    appearance:none;border:none;background:transparent;cursor:pointer;
+    appearance:none;border:none;background:transparent;cursor:pointer;flex:1;
     font-family:"Inter";font-size:13.5px;font-weight:600;color:var(--ink-2);
-    padding:7px 16px;border-radius:8px;transition:background .15s,color .15s,transform .15s;
-    display:inline-flex;align-items:center;gap:6px;
+    padding:9px 16px;border-radius:8px;transition:background .15s,color .15s,transform .15s;
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
   }
   .vtab:hover{color:var(--ink)}
   .vtab.active{background:var(--ink);color:var(--paper)}
@@ -109,8 +128,8 @@
   .vtab.cta.active:hover{background:#0c1620;transform:none}
   .vtab.cta .spark{width:13px;height:13px;flex:none}
 
-  @media(max-width:720px){.viewtabs{display:flex!important;margin-left:auto}}
-  @media(max-width:480px){.vtab{padding:7px 11px;font-size:12.5px}}
+  @media(max-width:680px){.viewtabs{max-width:none;flex-wrap:wrap}.vtab{flex:1 1 calc(50% - 3px)}}
+  @media(max-width:480px){.vtab{padding:8px 11px;font-size:12.5px;flex:1 1 100%}}
 
   .view[hidden]{display:none}
 
@@ -371,6 +390,30 @@
   .mini-copy.use-btn:hover{background:var(--gold);color:#2A1C00;border-color:var(--gold)}
   @media(max-width:760px){.lib-grid{grid-template-columns:1fr}}
 
+  /* video tutorial cards */
+  .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .video-card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px 19px;
+    display:flex;flex-direction:column;gap:13px;
+  }
+  .video-card-head{display:flex;align-items:center;gap:10px}
+  .video-ic{font-size:20px;line-height:1}
+  .video-card h3{margin:0;font-size:16px;font-weight:600}
+  .video-points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;flex:1}
+  .video-points li{
+    font-size:13px;line-height:1.45;color:var(--ink-2);padding-left:16px;position:relative;
+  }
+  .video-points li::before{
+    content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--c-context);
+  }
+  .video-link{
+    display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink);
+    text-decoration:none;padding:9px 0 0;border-top:1px solid var(--line-soft);transition:color .14s;
+  }
+  .video-link:hover{color:var(--c-context)}
+  @media(max-width:900px){.video-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.video-grid{grid-template-columns:1fr}}
+
   /* editable advanced-technique snippet cards */
   .adv-card .ctitle{margin-bottom:-2px}
   .adv-snippet-input{
@@ -434,29 +477,38 @@
 
 <!-- ===== TOP BAR ===== -->
 <div class="topbar">
-  <div class="wrap row">
-    <div class="brand">
-      <span class="dot">C</span>
-      <span>The Prompt Brief <small>· COEO AI Initiative</small></span>
-      <span class="copilot-badge" title="Built for Microsoft Copilot">
-        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="cpG1" x1="6" y1="40" x2="34" y2="8" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#1B48EF"/>
-              <stop offset="0.55" stop-color="#3F8CF3"/>
-              <stop offset="1" stop-color="#52B0E7"/>
-            </linearGradient>
-            <linearGradient id="cpG2" x1="42" y1="8" x2="14" y2="40" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#EE6FA3"/>
-              <stop offset="0.5" stop-color="#C26FE3"/>
-              <stop offset="1" stop-color="#7B68EE"/>
-            </linearGradient>
-          </defs>
-          <path fill="url(#cpG1)" d="M18.7 0c-1.6 9.4-9.2 17-18.7 18.7 9.4 1.6 17 9.2 18.7 18.7 1.6-9.4 9.2-17 18.7-18.7C28 17 20.3 9.4 18.7 0z" transform="translate(2,2) scale(0.78)"/>
-          <path fill="url(#cpG2)" d="M28.7 0c-.8 5.4-5 9.7-10.4 10.4 5.4.8 9.7 5 10.4 10.4.8-5.4 5-9.7 10.4-10.4C33.7 9.7 29.5 5.4 28.7 0z" transform="translate(3,1) scale(0.92)"/>
-        </svg>
-        <span class="cp-label">for Microsoft Copilot</span>
-      </span>
+  <div class="wrap topbar-inner">
+    <div class="topbar-brandrow">
+      <div class="brand">
+        <span class="dot">C</span>
+        <span>The Prompt Brief <small>· COEO AI Initiative</small></span>
+        <span class="copilot-badge" title="Built for Microsoft Copilot">
+          <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="cpG1" x1="6" y1="40" x2="34" y2="8" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#1B48EF"/>
+                <stop offset="0.55" stop-color="#3F8CF3"/>
+                <stop offset="1" stop-color="#52B0E7"/>
+              </linearGradient>
+              <linearGradient id="cpG2" x1="42" y1="8" x2="14" y2="40" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#EE6FA3"/>
+                <stop offset="0.5" stop-color="#C26FE3"/>
+                <stop offset="1" stop-color="#7B68EE"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#cpG1)" d="M18.7 0c-1.6 9.4-9.2 17-18.7 18.7 9.4 1.6 17 9.2 18.7 18.7 1.6-9.4 9.2-17 18.7-18.7C28 17 20.3 9.4 18.7 0z" transform="translate(2,2) scale(0.78)"/>
+            <path fill="url(#cpG2)" d="M28.7 0c-.8 5.4-5 9.7-10.4 10.4 5.4.8 9.7 5 10.4 10.4.8-5.4 5-9.7 10.4-10.4C33.7 9.7 29.5 5.4 28.7 0z" transform="translate(3,1) scale(0.92)"/>
+          </svg>
+          <span class="cp-label">for Microsoft Copilot</span>
+        </span>
+      </div>
+      <div class="topbar-status">
+        <span class="status-pill"><span class="status-dot"></span> Live</span>
+        <span class="status-sep">·</span>
+        <span class="status-text">v1.0</span>
+        <span class="status-sep">·</span>
+        <span class="status-text">4-block framework</span>
+      </div>
     </div>
     <nav class="topnav viewtabs" role="tablist" aria-label="Page view">
       <button class="vtab active" role="tab" aria-selected="true" data-view="info">Basic Prompting</button>
@@ -570,11 +622,96 @@
   </div>
 </section>
 
+<!-- ===== VIDEO TUTORIALS ===== -->
+<section id="videos">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03 / SEE IT IN ACTION</span>
+      <h2>Video tutorials, by application.</h2>
+      <p>Official short demos from Microsoft showing exactly what Copilot can do in each app. Pick the one for what you're working in — each links straight to that demo on Microsoft's own Copilot adoption hub.</p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">📄</span>
+          <h3>Word</h3>
+        </div>
+        <ul class="video-points">
+          <li>Generate structured, multi-page content</li>
+          <li>Refine or expand sections with follow-up prompts</li>
+          <li>Summarize existing documents</li>
+          <li>Retrieve data using natural-language questions</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#word" target="_blank" rel="noopener">Watch the Word demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">📊</span>
+          <h3>Excel</h3>
+        </div>
+        <ul class="video-points">
+          <li>Import data from the web or organizational sources</li>
+          <li>Generate tables of key findings</li>
+          <li>Get plain-English explanations of formulas</li>
+          <li>Turn results into charts for easy sharing</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#excel" target="_blank" rel="noopener">Watch the Excel demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">📈</span>
+          <h3>PowerPoint</h3>
+        </div>
+        <ul class="video-points">
+          <li>Generate a presentation from an existing document</li>
+          <li>Organize slide sections with an agenda</li>
+          <li>Summarize content through prompts</li>
+          <li>Prepare for likely audience questions</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#powerpoint" target="_blank" rel="noopener">Watch the PowerPoint demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">✉️</span>
+          <h3>Outlook</h3>
+        </div>
+        <ul class="video-points">
+          <li>Concisely summarize email threads and attachments</li>
+          <li>Extract action items from a conversation</li>
+          <li>Draft replies and adjust the tone</li>
+          <li>Automate routine actions with Calendar Instructions</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#outlook" target="_blank" rel="noopener">Watch the Outlook demo →</a>
+      </div>
+
+      <div class="video-card">
+        <div class="video-card-head">
+          <span class="video-ic">👥</span>
+          <h3>Teams</h3>
+        </div>
+        <ul class="video-points">
+          <li>Pull agenda topics from the invite or meeting chat</li>
+          <li>Track discussion topics live during the meeting</li>
+          <li>Capture notes and action items automatically</li>
+          <li>Generate an executive summary at meeting wrap-up</li>
+        </ul>
+        <a class="video-link" href="https://adoption.microsoft.com/en-us/copilot/#teams" target="_blank" rel="noopener">Watch the Teams demo →</a>
+      </div>
+    </div>
+
+    <p class="tip" style="margin-top:4px">All five demos live on Microsoft's official Copilot adoption hub — <a href="https://adoption.microsoft.com/en-us/copilot/" target="_blank" rel="noopener" style="color:var(--c-context);text-decoration:underline">adoption.microsoft.com/copilot</a> — alongside demos for the Researcher and Analyst agents, if you want to go deeper.</p>
+  </div>
+</section>
+
 <!-- ===== MISTAKES ===== -->
 <section id="mistakes">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num">03 / COMMON MISTAKES</span>
+      <span class="sec-num">04 / COMMON MISTAKES</span>
       <h2>Five habits to drop.</h2>
       <p>Most "Copilot got it wrong" stories are really "Copilot wasn't given enough to go on." These are the fixes that move the needle fastest.</p>
     </div>
