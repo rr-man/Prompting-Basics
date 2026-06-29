@@ -142,6 +142,58 @@
   .adv-hero .lede a{color:var(--c-context);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:2px}
   .adv-hero .lede a:hover{text-decoration-color:var(--c-context)}
 
+  /* featured video card — top of Video Tutorials tab */
+  .featured-video{
+    margin-top:28px;display:flex;align-items:center;gap:18px;text-decoration:none;
+    background:linear-gradient(135deg,var(--ink) 0%,#1f2e3d 100%);border-radius:18px;
+    padding:22px 24px;box-shadow:var(--shadow-lg);transition:transform .15s;
+  }
+  .featured-video:hover{transform:translateY(-2px)}
+  .featured-video-play{
+    width:52px;height:52px;border-radius:50%;background:var(--gold);flex:none;
+    display:grid;place-items:center;color:#2A1C00;box-shadow:0 0 0 6px rgba(199,134,10,.18);
+  }
+  .featured-video-play svg{width:22px;height:22px}
+  .featured-video-body{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+  .featured-video-tag{
+    font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+  }
+  .featured-video-title{font-family:"Space Grotesk";font-size:18px;font-weight:600;color:#fff;line-height:1.3}
+  .featured-video-desc{font-size:13.5px;color:#AEBAC6;line-height:1.5;max-width:62ch}
+  .featured-video-cta{
+    flex:none;font-size:13.5px;font-weight:600;color:#fff;background:rgba(255,255,255,.12);
+    padding:9px 16px;border-radius:9px;white-space:nowrap;transition:background .15s;
+  }
+  .featured-video:hover .featured-video-cta{background:var(--gold);color:#2A1C00}
+  @media(max-width:680px){
+    .featured-video{flex-direction:column;align-items:flex-start;gap:14px}
+    .featured-video-cta{align-self:flex-start}
+  }
+
+  /* live training callout — sits above the five app demos */
+  .training-callout{
+    margin-top:18px;display:flex;align-items:center;gap:20px;
+    background:var(--gold-soft);border:1px solid #EDD9A8;border-radius:16px;padding:20px 24px;
+  }
+  .training-callout-text{flex:1;min-width:0}
+  .training-callout-tag{
+    font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+  }
+  .training-callout-text h3{margin:5px 0 6px;font-size:17px;font-weight:600;color:var(--ink);font-family:"Space Grotesk"}
+  .training-callout-text p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.5;max-width:60ch}
+  .training-callout-btn{
+    flex:none;display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:var(--gold);color:#2A1C00;font-size:14px;font-weight:700;
+    padding:13px 22px;border-radius:11px;white-space:nowrap;
+    box-shadow:0 2px 4px rgba(199,134,10,.25), 0 10px 22px rgba(199,134,10,.28);
+    transition:background .15s,transform .15s,box-shadow .15s;
+  }
+  .training-callout-btn:hover{background:#dd9a18;transform:translateY(-1px);box-shadow:0 3px 6px rgba(199,134,10,.3), 0 14px 26px rgba(199,134,10,.32)}
+  @media(max-width:680px){
+    .training-callout{flex-direction:column;align-items:flex-start;gap:14px}
+    .training-callout-btn{align-self:flex-start}
+  }
+
   /* table of contents */
   .toc{margin-top:30px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px 22px;max-width:560px}
   .toc-label{
@@ -1019,6 +1071,27 @@
     <div class="eyebrow">Official demos from Microsoft</div>
     <h1>See it in action.</h1>
     <p class="lede">Short, official demos from Microsoft showing exactly what Copilot can do in each app. Pick the one for what you're working in — each links straight to that demo on Microsoft's own Copilot adoption hub.</p>
+
+    <a class="featured-video" href="https://support.microsoft.com/en-US/Microsoft-365-Copilot/get-better-copilot-responses-with-great-prompting" target="_blank" rel="noopener">
+      <span class="featured-video-play">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+      </span>
+      <span class="featured-video-body">
+        <span class="featured-video-tag">Start here · Microsoft Support</span>
+        <span class="featured-video-title">Get better Copilot responses with great prompting</span>
+        <span class="featured-video-desc">A short official video covering the core habits — adding detail, structuring your prompt, using positive instructions, and iterating — before you dive into the app-specific demos below.</span>
+      </span>
+      <span class="featured-video-cta">Watch now →</span>
+    </a>
+
+    <div class="training-callout">
+      <div class="training-callout-text">
+        <span class="training-callout-tag">Want more than a video?</span>
+        <h3>Live, role-based Copilot training from Microsoft</h3>
+        <p>Free sessions — live or on-demand — covering fundamentals for execs, finance, IT, sales, and more, plus real-world examples and Q&amp;A with Microsoft experts.</p>
+      </div>
+      <a class="training-callout-btn" href="https://www.microsoft.com/en-us/events/category/microsoft-365-copilot-training?ocid=cmmy9qtdlhx&fromcode=cmmy9qtdlhx&filters=primary-language%3Aenglish&scenario=copilot" target="_blank" rel="noopener">Browse training events →</a>
+    </div>
   </div>
 </header>
 
@@ -1099,6 +1172,7 @@
     <p class="tip" style="margin-top:18px">All five demos live on Microsoft's official Copilot adoption hub — <a href="https://adoption.microsoft.com/en-us/copilot/" target="_blank" rel="noopener" style="color:var(--c-context);text-decoration:underline">adoption.microsoft.com/copilot</a> — alongside demos for the Researcher and Analyst agents, if you want to go deeper.</p>
   </div>
 </section>
+
 
 </div>
 <!-- ===== /VIEW: VIDEO TUTORIALS ===== -->
