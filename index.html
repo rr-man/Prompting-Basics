@@ -165,6 +165,17 @@
     padding:9px 16px;border-radius:9px;white-space:nowrap;transition:background .15s;
   }
   .featured-video:hover .featured-video-cta{background:var(--gold);color:#2A1C00}
+
+  /* internal (COEO) variant — light card, navy accents */
+  .featured-video.internal{
+    background:#fff;border:1.5px solid var(--ink);box-shadow:var(--shadow);margin-top:14px;
+  }
+  .featured-video.internal .featured-video-play{background:var(--ink);color:var(--paper);box-shadow:0 0 0 6px rgba(26,53,96,.12)}
+  .featured-video.internal .featured-video-tag{color:var(--ink-3)}
+  .featured-video.internal .featured-video-title{color:var(--ink)}
+  .featured-video.internal .featured-video-desc{color:var(--ink-2)}
+  .featured-video.internal .featured-video-cta{background:var(--ink);color:var(--paper)}
+  .featured-video.internal:hover .featured-video-cta{background:var(--gold);color:#2A1C00}
   @media(max-width:680px){
     .featured-video{flex-direction:column;align-items:flex-start;gap:14px}
     .featured-video-cta{align-self:flex-start}
@@ -450,6 +461,7 @@
     border-radius:9px;padding:13px 14px;flex:1;
   }
   .card .cfoot{display:flex;align-items:center;justify-content:space-between}
+  .card .cbtns{display:flex;gap:7px}
   .card .cblocks{display:flex;gap:5px}
   .card .cblocks span{width:10px;height:10px;border-radius:3px}
   .mini-copy{
@@ -533,6 +545,29 @@
   footer .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
   footer b{color:var(--ink-2)}
   footer .mono{font-size:11.5px;letter-spacing:.04em}
+
+  /* start-from-scratch confirmation modal */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(26,53,96,.45);backdrop-filter:blur(3px);
+    display:grid;place-items:center;z-index:100;padding:20px;
+  }
+  .modal-overlay[hidden]{display:none}
+  .modal{
+    background:#fff;border-radius:16px;padding:26px 26px 22px;max-width:420px;width:100%;
+    box-shadow:var(--shadow-lg);border:1px solid var(--line);
+  }
+  .modal h3{margin:0 0 8px;font-size:19px;font-weight:600;font-family:"Space Grotesk";color:var(--ink)}
+  .modal p{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.55}
+  .modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+  .modal-btn-keep,.modal-btn-clear{
+    font-family:"Inter";font-size:14px;font-weight:600;border-radius:10px;padding:10px 16px;cursor:pointer;
+    border:1px solid transparent;transition:transform .12s,background .15s;
+  }
+  .modal-btn-keep:active,.modal-btn-clear:active{transform:translateY(1px)}
+  .modal-btn-keep{background:var(--mist);color:var(--ink);border-color:var(--line)}
+  .modal-btn-keep:hover{background:var(--mist-2)}
+  .modal-btn-clear{background:var(--c-goal);color:#fff}
+  .modal-btn-clear:hover{background:#a8370a}
 
   @media(prefers-reduced-motion:reduce){
     *{transition:none!important;animation:none!important}
@@ -1084,6 +1119,18 @@
       <span class="featured-video-cta">Watch now →</span>
     </a>
 
+    <a class="featured-video internal" href="https://coeosolo1.sharepoint.com/:v:/s/COEOSolutions/IQB1cm6k-i49QbnaCfotsmgdASiLTvxgUIfrdZl4QrzdRJE?e=XszNyU" target="_blank" rel="noopener">
+      <span class="featured-video-play">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+      </span>
+      <span class="featured-video-body">
+        <span class="featured-video-tag">COEO Internal · SharePoint</span>
+        <span class="featured-video-title">MS 365 Copilot and Agents</span>
+        <span class="featured-video-desc">Our internal walkthrough of Microsoft 365 Copilot and agents at COEO. Requires your COEO sign-in — opens in SharePoint.</span>
+      </span>
+      <span class="featured-video-cta">Watch now →</span>
+    </a>
+
     <div class="training-callout">
       <div class="training-callout-text">
         <span class="training-callout-tag">Want more than a video?</span>
@@ -1177,6 +1224,18 @@
 </div>
 <!-- ===== /VIEW: VIDEO TUTORIALS ===== -->
 
+<!-- ===== START FROM SCRATCH CONFIRMATION MODAL ===== -->
+<div class="modal-overlay" id="scratch-modal" hidden role="dialog" aria-modal="true" aria-labelledby="scratch-modal-title">
+  <div class="modal">
+    <h3 id="scratch-modal-title">Start fresh?</h3>
+    <p>You have content in the builder. Do you want to clear everything and start from scratch, or keep what you have?</p>
+    <div class="modal-btns">
+      <button class="modal-btn-keep" id="scratch-keep-btn" type="button">Keep my draft</button>
+      <button class="modal-btn-clear" id="scratch-clear-btn" type="button">Clear everything</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== FOOTER ===== -->
 <footer>
   <div class="wrap row">
@@ -1217,17 +1276,58 @@
   /* ---------------- BUILDER START MODE (scratch vs department) ---------------- */
   const modeTabs = document.querySelectorAll('.mtab');
   const deptPanel = document.getElementById('dept-panel');
+
+  function setMode(mode){
+    modeTabs.forEach(t=>{
+      const on = t.getAttribute('data-mode')===mode;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    deptPanel.hidden = (mode !== 'dept');
+  }
+
+  function builderHasData(){
+    return !!(goal.value.trim() || ctx.value.trim() || exp.value.trim() || src.value.trim() || activeTone || activeProduct);
+  }
+
+  function clearBuilder(){
+    goal.value = ctx.value = exp.value = src.value = '';
+    activeTone = null;
+    activeProduct = null;
+    document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+    assemble();
+    syncAdvButtons();
+  }
+
   modeTabs.forEach(tab=>{
     tab.addEventListener('click', ()=>{
       const mode = tab.getAttribute('data-mode');
-      modeTabs.forEach(t=>{
-        const on = t===tab;
-        t.classList.toggle('active', on);
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-      deptPanel.hidden = (mode !== 'dept');
+      if(mode === 'scratch' && builderHasData()){
+        openScratchModal();
+        return;
+      }
+      setMode(mode);
     });
   });
+
+  /* start-from-scratch confirmation modal */
+  const scratchModal = document.getElementById('scratch-modal');
+  const scratchClearBtn = document.getElementById('scratch-clear-btn');
+  const scratchKeepBtn = document.getElementById('scratch-keep-btn');
+  function openScratchModal(){ scratchModal.hidden = false; scratchKeepBtn.focus(); }
+  function closeScratchModal(){ scratchModal.hidden = true; }
+  scratchClearBtn.addEventListener('click', ()=>{
+    clearBuilder();
+    setMode('scratch');
+    closeScratchModal();
+    goal.focus();
+  });
+  scratchKeepBtn.addEventListener('click', ()=>{
+    setMode('scratch');
+    closeScratchModal();
+  });
+  scratchModal.addEventListener('click', e=>{ if(e.target === scratchModal) closeScratchModal(); });
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && !scratchModal.hidden) closeScratchModal(); });
 
   /* ---------------- BUILDER ---------------- */
   const goal = document.getElementById('i-goal');
@@ -1371,12 +1471,7 @@
   }
 
   document.getElementById('clear-btn').addEventListener('click', ()=>{
-    goal.value=ctx.value=exp.value=src.value='';
-    activeTone=null;
-    activeProduct=null;
-    document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
-    assemble();
-    syncAdvButtons();
+    clearBuilder();
     goal.focus();
   });
 
@@ -1401,63 +1496,150 @@
   // blocks present: g=goal c=context e=expectations s=source
   const library = {
     "Copilot Chat":{ ic:"💬", items:[
-      { t:"Catch up for an escalation review", b:"gces",
-        p:"Summarize the open issues from my email thread with [vendor] over the past two weeks into a table of issue, owner, and next step. I'm prepping for the Friday escalation review. Keep it concise." },
-      { t:"Turn an inbox into a task list", b:"ges",
-        p:"From my emails over the past week, create a table of action items with the owner, who assigned it, and the due date. I want it structured so I can plan my day." },
-      { t:"Draft a process from notes", b:"gce",
-        p:"Draft an outline for an internal runbook on handling P1 voice outages. The audience is L1 support agents. Cover detection, triage, escalation path, and customer comms. Friendly, step-by-step tone." },
-      { t:"Compare two options", b:"gce",
-        p:"Compare keeping our current BPO staffing model versus adding a night-shift NOC tier. List pros, cons, and cost implications in a table for a leadership decision." }
+      { t:"Catch up for an escalation review",
+        g:"Summarize the open issues from the past two weeks into a table of issue, owner, and next step",
+        c:"I'm prepping for the Friday escalation review",
+        e:"Keep it concise",
+        s:"my email thread with [vendor]" },
+      { t:"Turn an inbox into a task list",
+        g:"Create a table of action items with the owner, who assigned it, and the due date",
+        c:"",
+        e:"Structured so I can plan my day",
+        s:"my emails over the past week" },
+      { t:"Draft a process from notes",
+        g:"Draft an outline for an internal runbook on handling P1 voice outages",
+        c:"The audience is L1 support agents",
+        e:"Cover detection, triage, escalation path, and customer comms. Friendly, step-by-step tone",
+        s:"" },
+      { t:"Compare two options",
+        g:"Compare keeping our current BPO staffing model versus adding a night-shift NOC tier",
+        c:"This is for a leadership decision",
+        e:"List pros, cons, and cost implications in a table",
+        s:"" }
     ]},
     "Outlook":{ ic:"✉️", items:[
-      { t:"Reply to a frustrated customer", b:"gces",
-        p:"Draft a reply to this email thread acknowledging the porting delay, explaining the next step, and offering a 15-minute call. Professional and reassuring tone, under 120 words." },
-      { t:"Announce scheduled maintenance", b:"gce",
-        p:"Write a customer email announcing a scheduled maintenance window this weekend for voice services. Calm and factual, explain the expected impact, and give a single point of contact." },
-      { t:"Congratulate the team", b:"gc",
-        p:"Write a short email to congratulate the support team on hitting our Q3 CSAT target. Warm tone, mention the effort during the migration." }
+      { t:"Reply to a frustrated customer",
+        g:"Draft a reply acknowledging the porting delay, explaining the next step, and offering a 15-minute call",
+        c:"",
+        e:"Professional and reassuring tone, under 120 words",
+        s:"this email thread" },
+      { t:"Announce scheduled maintenance",
+        g:"Write a customer email announcing a scheduled maintenance window this weekend for voice services",
+        c:"",
+        e:"Calm and factual, explain the expected impact, and give a single point of contact",
+        s:"" },
+      { t:"Congratulate the team",
+        g:"Write a short email to congratulate the support team on hitting our Q3 CSAT target",
+        c:"Mention the effort during the migration",
+        e:"Warm tone",
+        s:"" }
     ]},
     "Word":{ ic:"📄", items:[
-      { t:"Onboarding doc from a source", b:"gces",
-        p:"Draft a training outline to onboard new L1 agents, based on \"Support Playbook.docx\". Audience is agents in their first week. Friendly, suggestive tone, broken into daily modules." },
-      { t:"Rewrite a paragraph", b:"ge",
-        p:"Rewrite this selected paragraph to be clearer and more concise for a customer audience, keeping the same key facts." },
-      { t:"Risk assessment skeleton", b:"gce",
-        p:"Draft a risk assessment outline covering support operations and migration risks. For an internal leadership audience. Use sections for risk, likelihood, impact, and mitigation." }
+      { t:"Onboarding doc from a source",
+        g:"Draft a training outline to onboard new L1 agents",
+        c:"Audience is agents in their first week",
+        e:"Friendly, suggestive tone, broken into daily modules",
+        s:"\"Support Playbook.docx\"" },
+      { t:"Rewrite a paragraph",
+        g:"Rewrite this selected paragraph to be clearer and more concise",
+        c:"For a customer audience",
+        e:"Keep the same key facts",
+        s:"" },
+      { t:"Risk assessment skeleton",
+        g:"Draft a risk assessment outline covering support operations and migration risks",
+        c:"For an internal leadership audience",
+        e:"Use sections for risk, likelihood, impact, and mitigation",
+        s:"" }
     ]},
     "Excel":{ ic:"📊", items:[
-      { t:"Summarize KPI data", b:"gces",
-        p:"Analyze this sheet of monthly ticket data. Add a column for resolution time in hours, then summarize average First Response Time by team in a table and flag any team above the 4-hour target." },
-      { t:"Explain a trend", b:"gce",
-        p:"Look at the CSAT scores in this sheet by month and tell me the three most notable trends. Plain English, no jargon, for a non-technical reader." },
-      { t:"Build a formula", b:"ge",
-        p:"Write an Excel formula that flags any row where resolution time is over 8 hours and the priority column says \"P1\". Explain what the formula does." }
+      { t:"Summarize KPI data",
+        g:"Add a column for resolution time in hours, then summarize average First Response Time by team",
+        c:"",
+        e:"A table, flagging any team above the 4-hour target",
+        s:"this sheet of monthly ticket data" },
+      { t:"Explain a trend",
+        g:"Identify the three most notable trends",
+        c:"For a non-technical reader",
+        e:"Plain English, no jargon",
+        s:"the monthly CSAT scores in this sheet" },
+      { t:"Build a formula",
+        g:"Write an Excel formula that flags any row where resolution time is over 8 hours and the priority column says \"P1\"",
+        c:"",
+        e:"Explain what the formula does",
+        s:"" }
     ]},
     "PowerPoint":{ ic:"📈", items:[
-      { t:"QBR deck from a file", b:"gces",
-        p:"Create a 6-slide deck summarizing Q3 support KPIs for the leadership QBR, using the data in \"Q3 KPIs.xlsx\". One slide each for FRT, CSAT, attendance, and schedule adherence. Concise, executive tone." },
-      { t:"Polish a slide", b:"ge",
-        p:"Improve this slide: tighten the bullet points to one line each and suggest a clear headline that states the takeaway." },
-      { t:"Kickoff deck from a chat", b:"gcs",
-        p:"Generate a project kick-off presentation for the new voice platform migration, based on the topics discussed in this Teams chat. Keep it to 8 slides." }
+      { t:"QBR deck from a file",
+        g:"Create a 6-slide deck summarizing Q3 support KPIs",
+        c:"For the leadership QBR",
+        e:"One slide each for FRT, CSAT, attendance, and schedule adherence. Concise, executive tone",
+        s:"\"Q3 KPIs.xlsx\"" },
+      { t:"Polish a slide",
+        g:"Improve this slide",
+        c:"",
+        e:"Tighten the bullet points to one line each and suggest a clear headline that states the takeaway",
+        s:"" },
+      { t:"Kickoff deck from a chat",
+        g:"Generate a project kick-off presentation for the new voice platform migration",
+        c:"",
+        e:"Keep it to 8 slides",
+        s:"the topics discussed in this Teams chat" }
     ]},
     "Teams":{ ic:"👥", items:[
-      { t:"Catch up on a channel", b:"gces",
-        p:"Catch me up on the #noc-incidents channel from the last 24 hours. What was escalated, what's still open, and who owns each item? Give it as a short list." },
-      { t:"Recap a meeting", b:"ges",
-        p:"From this meeting, summarize the decisions made, the action items with owners, and any open questions. I missed the second half." },
-      { t:"Draft a channel update", b:"gce",
-        p:"Draft a short status update for the support leads channel on where we are with the migration. Confident but honest about the two items still at risk." }
+      { t:"Catch up on a channel",
+        g:"Catch me up: what was escalated, what's still open, and who owns each item?",
+        c:"",
+        e:"Give it as a short list",
+        s:"the #noc-incidents channel from the last 24 hours" },
+      { t:"Recap a meeting",
+        g:"Summarize the decisions made, the action items with owners, and any open questions",
+        c:"I missed the second half",
+        e:"",
+        s:"this meeting" },
+      { t:"Draft a channel update",
+        g:"Draft a short status update on where we are with the migration",
+        c:"For the support leads channel",
+        e:"Confident but honest about the two items still at risk",
+        s:"" }
     ]}
   };
 
   const blockColor = { g:'var(--c-goal)', c:'var(--c-context)', e:'var(--c-expect)', s:'var(--c-source)' };
-  const blockMap = { g:'g', c:'c', e:'e', s:'s' };
 
   const tabsEl = document.getElementById('lib-tabs');
   const gridEl = document.getElementById('lib-grid');
   const appNames = Object.keys(library);
+
+  function libPreview(item){
+    return [item.g, item.s ? ('Use '+item.s+' as the source') : '', item.c, item.e]
+      .filter(Boolean).map(s=>s.replace(/\.?\s*$/,'.')).join(' ');
+  }
+
+  function loadIntoBuilder(item, productName){
+    goal.value = item.g || '';
+    ctx.value  = item.c || '';
+    exp.value  = item.e || '';
+    src.value  = item.s || '';
+    // reset chips, then auto-select the product matching the app tab
+    document.querySelectorAll('#format-chips .chip, #tone-chips .chip, #product-chips .chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+    activeTone = null;
+    activeProduct = null;
+    if(productName){
+      const chip = document.querySelector('#product-chips .chip[data-product="'+productName+'"]');
+      if(chip){ chip.setAttribute('aria-pressed','true'); activeProduct = productName; }
+    }
+    assemble();
+    syncAdvButtons();
+    deptPanel.hidden = true;
+    modeTabs.forEach(t=>{
+      const on = t.getAttribute('data-mode')==='scratch';
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    switchView('build');
+    const anchor = document.getElementById('builder-anchor');
+    if(anchor) anchor.scrollIntoView({behavior:'smooth', block:'start'});
+  }
 
   function renderTabs(active){
     tabsEl.innerHTML='';
@@ -1476,24 +1658,35 @@
       const card=document.createElement('div');
       card.className='card';
 
-      const blocksHtml = ['g','c','e','s'].map(k=>{
-        const on = item.b.indexOf(k)>-1;
+      const blocksHtml = [
+        ['g',item.g], ['c',item.c], ['e',item.e], ['s',item.s]
+      ].map(([k,v])=>{
+        const on = !!(v && v.trim());
         return '<span title="'+k+'" style="background:'+(on?blockColor[k]:'var(--mist-2)')+'"></span>';
       }).join('');
 
+      const preview = libPreview(item);
+
       card.innerHTML =
         '<div class="ctitle"><span class="b">'+name+'</span>'+item.t+'</div>'+
-        '<div class="cprompt">'+escapeHtml(item.p)+'</div>'+
+        '<div class="cprompt">'+escapeHtml(preview)+'</div>'+
         '<div class="cfoot"><div class="cblocks" title="blocks used">'+blocksHtml+'</div>'+
-        '<button class="mini-copy">Copy</button></div>';
+        '<div class="cbtns"><button class="mini-copy copy-only">Copy</button>'+
+        '<button class="mini-copy use-btn lib-use">Use in builder →</button></div></div>';
 
-      const btn=card.querySelector('.mini-copy');
-      btn.addEventListener('click',()=>{
-        copyText(item.p, ()=>{
-          btn.textContent='Copied ✓'; btn.classList.add('done');
-          setTimeout(()=>{ btn.textContent='Copy'; btn.classList.remove('done'); },1700);
-        }, ()=>{ btn.textContent='Failed'; setTimeout(()=>btn.textContent='Copy',1700); });
+      const copyBtn=card.querySelector('.copy-only');
+      copyBtn.addEventListener('click',()=>{
+        copyText(preview, ()=>{
+          copyBtn.textContent='Copied ✓'; copyBtn.classList.add('done');
+          setTimeout(()=>{ copyBtn.textContent='Copy'; copyBtn.classList.remove('done'); },1700);
+        }, ()=>{ copyBtn.textContent='Failed'; setTimeout(()=>copyBtn.textContent='Copy',1700); });
       });
+
+      const useBtn=card.querySelector('.lib-use');
+      useBtn.addEventListener('click',()=>{
+        loadIntoBuilder(item, name);
+      });
+
       gridEl.appendChild(card);
     });
   }
@@ -1656,23 +1849,7 @@
 
       const btn=card.querySelector('.use-btn');
       btn.addEventListener('click',()=>{
-        goal.value = item.g || '';
-        ctx.value  = item.c || '';
-        exp.value  = item.e || '';
-        src.value  = item.s || '';
-        document.querySelectorAll('#format-chips .chip, #tone-chips .chip, #product-chips .chip').forEach(c=>c.setAttribute('aria-pressed','false'));
-        activeTone = null;
-        activeProduct = null;
-        assemble();
-        syncAdvButtons();
-        deptPanel.hidden = true;
-        modeTabs.forEach(t=>{
-          const on = t.getAttribute('data-mode')==='scratch';
-          t.classList.toggle('active', on);
-          t.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        const anchor = document.getElementById('builder-anchor');
-        if(anchor) anchor.scrollIntoView({behavior:'smooth', block:'start'});
+        loadIntoBuilder(item, null);
       });
       deptGridEl.appendChild(card);
     });
