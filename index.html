@@ -69,6 +69,15 @@
     font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-3);letter-spacing:.02em;
   }
   .prepared-by{font-size:11px;color:var(--ink-3);font-weight:500}
+  .created-by{
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    font-size:11px;color:var(--ink-2);font-weight:600;transition:color .14s;
+  }
+  .created-by:hover{color:#0A66C2;text-decoration:underline;text-underline-offset:2px}
+  .created-by .li-ic{width:14px;height:14px;flex:none;border-radius:3px}
+  .footer-left{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+  .footer-left .created-by{font-size:13px}
+  .footer-left .created-by .li-ic{width:15px;height:15px}
   .topbar-status .status-row{display:flex;align-items:center;gap:9px}
   .status-pill{display:inline-flex;align-items:center;gap:6px;color:var(--c-expect);font-weight:600}
   .status-dot{
@@ -569,6 +578,23 @@
   .modal-btn-clear{background:var(--c-goal);color:#fff}
   .modal-btn-clear:hover{background:#a8370a}
 
+  /* next-tab navigation at the bottom of each page */
+  .next-tab-wrap{display:flex;justify-content:flex-end;padding:8px 24px 46px}
+  .next-tab-btn{
+    appearance:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:9px;
+    font-family:"Inter";font-size:15px;font-weight:700;
+    background:var(--gold);color:#2A1C00;padding:13px 22px;border-radius:11px;
+    box-shadow:0 2px 4px rgba(199,134,10,.2), 0 10px 24px rgba(199,134,10,.18);
+    transition:background .15s,transform .15s,box-shadow .15s;
+  }
+  .next-tab-btn:hover{
+    background:#dd9a18;transform:translateY(-1px);
+    box-shadow:0 3px 6px rgba(199,134,10,.25), 0 14px 28px rgba(199,134,10,.24);
+  }
+  .next-tab-btn:active{transform:translateY(1px)}
+  .next-tab-btn .arr{transition:transform .15s}
+  .next-tab-btn:hover .arr{transform:translateX(3px)}
+
   @media(prefers-reduced-motion:reduce){
     *{transition:none!important;animation:none!important}
     html{scroll-behavior:auto}
@@ -588,7 +614,7 @@
     <div class="topbar-brandrow">
       <div class="brand">
         <span class="dot">C</span>
-        <span>The Prompt Brief <small>· COEO AI Initiative</small></span>
+        <span>The Prompt Brief <small>· COEO AI Enablement</small></span>
         <span class="copilot-badge" title="Built for Microsoft Copilot">
           <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
             <defs>
@@ -799,6 +825,10 @@
     </div>
   </div>
 </section>
+
+<div class="wrap next-tab-wrap">
+  <button class="next-tab-btn" data-next="advanced" type="button">Next: Advanced Prompting <span class="arr">→</span></button>
+</div>
 
 </div>
 <!-- ===== /VIEW: BASIC PROMPTING ===== -->
@@ -1095,6 +1125,10 @@
   </div>
 </section>
 
+<div class="wrap next-tab-wrap">
+  <button class="next-tab-btn" data-next="videos" type="button">Next: Video Tutorials <span class="arr">→</span></button>
+</div>
+
 </div>
 <!-- ===== /VIEW: ADVANCED TECHNIQUES ===== -->
 
@@ -1221,6 +1255,10 @@
 </section>
 
 
+<div class="wrap next-tab-wrap">
+  <button class="next-tab-btn" data-next="build" type="button">Next: Build a prompt <span class="arr">→</span></button>
+</div>
+
 </div>
 <!-- ===== /VIEW: VIDEO TUTORIALS ===== -->
 
@@ -1239,7 +1277,16 @@
 <!-- ===== FOOTER ===== -->
 <footer>
   <div class="wrap row">
-    <span>Built for <b>COEO Solutions</b> · part of the Copilot enablement rollout</span>
+    <div class="footer-left">
+      <a class="created-by" href="https://www.linkedin.com/in/ronmangune/" target="_blank" rel="noopener" title="Ron Mangune on LinkedIn">
+        Created by Ron Mangune
+        <svg class="li-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect width="24" height="24" rx="4" fill="#0A66C2"/>
+          <path fill="#fff" d="M8.1 18.3H5.4V9.7h2.7v8.6zM6.75 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12zM18.6 18.3h-2.7v-4.2c0-1-.02-2.29-1.4-2.29-1.4 0-1.61 1.09-1.61 2.22v4.27h-2.7V9.7h2.59v1.17h.04c.36-.68 1.24-1.4 2.55-1.4 2.73 0 3.23 1.8 3.23 4.13v4.7z"/>
+        </svg>
+      </a>
+      <span>Built for <b>COEO Solutions</b> · part of the COEO AI Enablement program</span>
+    </div>
     <span class="mono">FRAMEWORK: GOAL · CONTEXT · EXPECTATIONS · SOURCE — Microsoft 365 Copilot</span>
   </div>
 </footer>
@@ -1272,6 +1319,11 @@
   if(heroBuildBtn){
     heroBuildBtn.addEventListener('click', ()=> switchView('build'));
   }
+
+  /* bottom-of-page next-tab arrows */
+  document.querySelectorAll('.next-tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> switchView(btn.getAttribute('data-next')));
+  });
 
   /* ---------------- BUILDER START MODE (scratch vs department) ---------------- */
   const modeTabs = document.querySelectorAll('.mtab');
