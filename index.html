@@ -174,17 +174,6 @@
     padding:9px 16px;border-radius:9px;white-space:nowrap;transition:background .15s;
   }
   .featured-video:hover .featured-video-cta{background:var(--gold);color:#2A1C00}
-
-  /* internal (COEO) variant — light card, navy accents */
-  .featured-video.internal{
-    background:#fff;border:1.5px solid var(--ink);box-shadow:var(--shadow);margin-top:14px;
-  }
-  .featured-video.internal .featured-video-play{background:var(--ink);color:var(--paper);box-shadow:0 0 0 6px rgba(26,53,96,.12)}
-  .featured-video.internal .featured-video-tag{color:var(--ink-3)}
-  .featured-video.internal .featured-video-title{color:var(--ink)}
-  .featured-video.internal .featured-video-desc{color:var(--ink-2)}
-  .featured-video.internal .featured-video-cta{background:var(--ink);color:var(--paper)}
-  .featured-video.internal:hover .featured-video-cta{background:var(--gold);color:#2A1C00}
   @media(max-width:680px){
     .featured-video{flex-direction:column;align-items:flex-start;gap:14px}
     .featured-video-cta{align-self:flex-start}
@@ -604,6 +593,15 @@
   .next-tab-btn:active{transform:translateY(1px)}
   .next-tab-btn .arr{transition:transform .15s}
   .next-tab-btn:hover .arr{transform:translateX(3px)}
+
+  /* inline vimeo embed */
+  .embed-block{margin-top:36px;padding-top:30px;border-top:1px dashed var(--line)}
+  .embed-tag{
+    font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+    display:block;margin-bottom:6px;
+  }
+  .embed-title{margin:0 0 16px;font-size:20px;font-weight:600;font-family:"Space Grotesk";color:var(--ink)}
+  .vimeo-embed{max-width:820px;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
 
   @media(prefers-reduced-motion:reduce){
     *{transition:none!important;animation:none!important}
@@ -1171,18 +1169,6 @@
       <span class="featured-video-cta">Watch now →</span>
     </a>
 
-    <a class="featured-video internal" href="https://coeosolo1.sharepoint.com/:v:/s/COEOSolutions/IQB1cm6k-i49QbnaCfotsmgdASiLTvxgUIfrdZl4QrzdRJE?e=XszNyU" target="_blank" rel="noopener">
-      <span class="featured-video-play">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
-      </span>
-      <span class="featured-video-body">
-        <span class="featured-video-tag">COEO Internal · SharePoint</span>
-        <span class="featured-video-title">MS 365 Copilot and Agents</span>
-        <span class="featured-video-desc">Our internal walkthrough of Microsoft 365 Copilot and agents at COEO. Requires your COEO sign-in — opens in SharePoint.</span>
-      </span>
-      <span class="featured-video-cta">Watch now →</span>
-    </a>
-
     <div class="training-callout">
       <div class="training-callout-text">
         <span class="training-callout-tag">Want more than a video?</span>
@@ -1269,6 +1255,14 @@
     </div>
 
     <p class="tip" style="margin-top:18px">All five demos live on Microsoft's official Copilot adoption hub — <a href="https://adoption.microsoft.com/en-us/copilot/" target="_blank" rel="noopener" style="color:var(--c-context);text-decoration:underline">adoption.microsoft.com/copilot</a> — alongside demos for the Researcher and Analyst agents, if you want to go deeper.</p>
+
+    <div class="embed-block">
+      <span class="embed-tag">COEO Internal · Watch it right here</span>
+      <h3 class="embed-title">Internal video library</h3>
+      <div class="tabs" id="vimeo-tabs"></div>
+      <div class="vimeo-embed" id="vimeo-player"></div>
+    </div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
   </div>
 </section>
 
@@ -1422,6 +1416,41 @@
     baChipsEl.appendChild(b);
   });
   renderBaExample('support');
+
+  /* ---------------- INTERNAL VIMEO VIDEO SELECTOR ---------------- */
+  // To add a video: add a line here with its Vimeo ID, title, and aspect ratio (padding %).
+  const vimeoVideos = [
+    { id:"1207915789", title:"Copilot for Operations", ratio:53.94 },
+    { id:"1207915788", title:"Copilot for Finance", ratio:56.07 },
+    { id:"1207915791", title:"Copilot for Sales", ratio:56.51 },
+    { id:"1207915790", title:"Copilot and Agents", ratio:56.51 }
+  ];
+
+  const vimeoTabsEl = document.getElementById('vimeo-tabs');
+  const vimeoPlayerEl = document.getElementById('vimeo-player');
+
+  function renderVimeoPlayer(idx){
+    const v = vimeoVideos[idx];
+    // only the selected video is loaded — one iframe at a time
+    vimeoPlayerEl.innerHTML =
+      '<div style="padding:'+v.ratio+'% 0 0 0;position:relative;">'+
+      '<iframe src="https://player.vimeo.com/video/'+v.id+'?badge=0&autopause=0&player_id=0&app_id=58479" '+
+      'frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" '+
+      'referrerpolicy="strict-origin-when-cross-origin" '+
+      'style="position:absolute;top:0;left:0;width:100%;height:100%;" title="MS 365 '+v.title+'"></iframe></div>';
+    vimeoTabsEl.querySelectorAll('.tab').forEach((t,i)=>{
+      t.classList.toggle('active', i===idx);
+    });
+  }
+
+  vimeoVideos.forEach((v,i)=>{
+    const b=document.createElement('button');
+    b.className='tab'+(i===0?' active':'');
+    b.innerHTML='<span class="ic">🎬</span>'+v.title;
+    b.addEventListener('click', ()=>renderVimeoPlayer(i));
+    vimeoTabsEl.appendChild(b);
+  });
+  renderVimeoPlayer(0);
 
   /* bottom-of-page next-tab arrows */
   document.querySelectorAll('.next-tab-btn').forEach(btn=>{
