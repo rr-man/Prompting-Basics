@@ -272,7 +272,17 @@
     font-family:"Space Grotesk";font-size:20px;
   }
   /* color-coded fragments in the "after" prompt */
-  .f{border-radius:4px;padding:.05em .28em;font-weight:500;white-space:nowrap}
+  .f{
+    border-radius:4px;padding:.05em .28em;font-weight:500;white-space:normal;
+    box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  }
+  .ba-intro{margin-top:44px;max-width:64ch}
+  .ba-title{font-family:"Space Grotesk";font-size:clamp(22px,3.2vw,30px);font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
+  .ba-title .hl2{background:linear-gradient(transparent 62%, var(--gold-soft) 62%);padding:0 .06em}
+  .ba-intro p{margin:6px 0 0;font-size:14.5px;color:var(--ink-2);line-height:1.55}
+  .ba-chips{margin:16px 0 14px}
+  .ba{margin-top:0}
+  .ba-sub{display:block;font-size:11.5px;color:var(--ink-3);margin:-8px 0 12px;font-family:"Inter";font-weight:500}
   .f-goal{background:var(--bg-goal);color:var(--c-goal);box-shadow:inset 0 -1.5px 0 var(--c-goal)}
   .f-ctx{background:var(--bg-context);color:var(--c-context);box-shadow:inset 0 -1.5px 0 var(--c-context)}
   .f-exp{background:var(--bg-expect);color:var(--c-expect);box-shadow:inset 0 -1.5px 0 var(--c-expect)}
@@ -678,15 +688,23 @@
       <span class="hero-cta-hint">Or keep reading for the four-block framework ↓</span>
     </div>
 
+    <div class="ba-intro">
+      <h2 class="ba-title">Vague in, <span class="hl2">clear out.</span></h2>
+      <p>"Vague in" is what most people type. "Clear out" is the same request rewritten with the four blocks — same ask, dramatically better answer. Pick your team to see it in your own work:</p>
+    </div>
+    <div class="chips ba-chips" id="ba-chips" role="group" aria-label="Example by department"></div>
+
     <div class="ba">
       <div class="col before">
         <span class="tag">Vague in</span>
-        <p>summarize my emails about the porting issue</p>
+        <span class="ba-sub">What most people type</span>
+        <p id="ba-before"></p>
       </div>
       <div class="mid">→</div>
       <div class="col after">
         <span class="tag">Clear out</span>
-        <p><span class="f f-goal">Summarize the open issues</span> <span class="f f-src">from my email thread with our carrier vendor this week</span> <span class="f f-exp">into a table of issue, owner, and next step</span><span class="f f-ctx"> — I'm prepping for the Friday escalation review</span>. Keep it concise.</p>
+        <span class="ba-sub">The same ask, written as a brief</span>
+        <p id="ba-after"></p>
       </div>
     </div>
     <div class="balegend">
@@ -1320,6 +1338,91 @@
     heroBuildBtn.addEventListener('click', ()=> switchView('build'));
   }
 
+  /* ---------------- VAGUE IN / CLEAR OUT department examples ---------------- */
+  const baExamples = [
+    { key:"support", name:"Support",
+      before:"help me respond to this angry customer",
+      after:[
+        {c:"f-goal", t:"Draft a reply about the porting delay"},
+        {t:" using "}, {c:"f-src", t:"this email thread"},
+        {t:" — "}, {c:"f-ctx", t:"it's an enterprise account and I want to keep the relationship strong"},
+        {t:". "}, {c:"f-exp", t:"Professional and reassuring, under 120 words, end with a 15-minute call offer"}, {t:"."}
+      ]},
+    { key:"am", name:"Account Management",
+      before:"make a QBR deck",
+      after:[
+        {c:"f-goal", t:"Create a 6-slide deck summarizing this quarter's support KPIs"},
+        {t:" using "}, {c:"f-src", t:"\"Q3 KPIs.xlsx\""},
+        {t:" — "}, {c:"f-ctx", t:"for the customer's IT director, who cares most about reliability"},
+        {t:". "}, {c:"f-exp", t:"One slide each for uptime, ticket volume, resolution time, and roadmap; executive tone"}, {t:"."}
+      ]},
+    { key:"sales", name:"Sales",
+      before:"write a follow up email",
+      after:[
+        {c:"f-goal", t:"Draft a follow-up email after today's discovery call"},
+        {t:" based on "}, {c:"f-src", t:"this meeting"},
+        {t:" — "}, {c:"f-ctx", t:"the prospect is comparing us against two competitors and cares most about implementation time"},
+        {t:". "}, {c:"f-exp", t:"Warm but concise; end with a proposed date for next steps"}, {t:"."}
+      ]},
+    { key:"finance", name:"Finance",
+      before:"explain these numbers",
+      after:[
+        {c:"f-goal", t:"Explain the variance between budgeted and actual spend this month"},
+        {t:" using "}, {c:"f-src", t:"this budget vs. actuals sheet"},
+        {t:" — "}, {c:"f-ctx", t:"it's going into the monthly leadership review"},
+        {t:". "}, {c:"f-exp", t:"Plain English; name the three biggest drivers"}, {t:"."}
+      ]},
+    { key:"pm", name:"Project Management",
+      before:"write a status update",
+      after:[
+        {c:"f-goal", t:"Draft a status update on the platform migration"},
+        {t:" from "}, {c:"f-src", t:"this week's standup notes"},
+        {t:" — "}, {c:"f-ctx", t:"for cross-functional stakeholders who don't need technical detail"},
+        {t:". "}, {c:"f-exp", t:"Short paragraph, then bullets for done, next, and blockers"}, {t:"."}
+      ]},
+    { key:"eng", name:"Engineering",
+      before:"what's wrong with this",
+      after:[
+        {c:"f-goal", t:"Explain what this error means and the likely cause"},
+        {t:" from "}, {c:"f-src", t:"this error log"},
+        {t:" — "}, {c:"f-ctx", t:"I need to relay it to a support agent who isn't technical"},
+        {t:". "}, {c:"f-exp", t:"Plain English, 3–4 sentences, no code"}, {t:"."}
+      ]}
+  ];
+
+  const baChipsEl = document.getElementById('ba-chips');
+  const baBeforeEl = document.getElementById('ba-before');
+  const baAfterEl = document.getElementById('ba-after');
+
+  function renderBaExample(key){
+    const ex = baExamples.find(x=>x.key===key);
+    baBeforeEl.textContent = ex.before;
+    baAfterEl.innerHTML = '';
+    ex.after.forEach(part=>{
+      if(part.c){
+        const s=document.createElement('span');
+        s.className='f '+part.c;
+        s.textContent=part.t;
+        baAfterEl.appendChild(s);
+      }else{
+        baAfterEl.appendChild(document.createTextNode(part.t));
+      }
+    });
+    baChipsEl.querySelectorAll('.chip').forEach(c=>{
+      c.setAttribute('aria-pressed', c.getAttribute('data-ba')===key ? 'true' : 'false');
+    });
+  }
+
+  baExamples.forEach(ex=>{
+    const b=document.createElement('button');
+    b.className='chip';
+    b.setAttribute('data-ba', ex.key);
+    b.textContent=ex.name;
+    b.addEventListener('click', ()=>renderBaExample(ex.key));
+    baChipsEl.appendChild(b);
+  });
+  renderBaExample('support');
+
   /* bottom-of-page next-tab arrows */
   document.querySelectorAll('.next-tab-btn').forEach(btn=>{
     btn.addEventListener('click', ()=> switchView(btn.getAttribute('data-next')));
@@ -1346,7 +1449,7 @@
     goal.value = ctx.value = exp.value = src.value = '';
     activeTone = null;
     activeProduct = null;
-    document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+    document.querySelectorAll('#format-chips .chip, #tone-chips .chip, #product-chips .chip').forEach(c=>c.setAttribute('aria-pressed','false'));
     assemble();
     syncAdvButtons();
   }
