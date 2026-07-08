@@ -265,11 +265,8 @@
     border-radius:4px;padding:.05em .28em;font-weight:500;white-space:normal;
     box-decoration-break:clone;-webkit-box-decoration-break:clone;
   }
-  .ba-intro{margin-top:44px;max-width:64ch}
-  .ba-title{font-family:"Space Grotesk";font-size:clamp(22px,3.2vw,30px);font-weight:600;margin:0 0 8px;letter-spacing:-.01em}
-  .ba-title .hl2{background:linear-gradient(transparent 62%, var(--gold-soft) 62%);padding:0 .06em}
-  .ba-intro p{margin:6px 0 0;font-size:14.5px;color:var(--ink-2);line-height:1.55}
-  .ba-chips{margin:16px 0 14px}
+  .hl2{background:linear-gradient(transparent 62%, var(--gold-soft) 62%);padding:0 .06em}
+  .ba-chips{margin:0 0 14px}
   .ba{margin-top:0}
   .ba-sub{display:block;font-size:11.5px;color:var(--ink-3);margin:-8px 0 12px;font-family:"Inter";font-weight:500}
   .f-goal{background:var(--bg-goal);color:var(--c-goal);box-shadow:inset 0 -1.5px 0 var(--c-goal)}
@@ -686,38 +683,13 @@
       <span class="hero-cta-hint">Or keep reading for the four-block framework ↓</span>
     </div>
 
-    <div class="ba-intro">
-      <h2 class="ba-title">Vague in, <span class="hl2">clear out.</span></h2>
-      <p>"Vague in" is what most people type. "Clear out" is the same request rewritten with the four blocks — same ask, dramatically better answer. Pick your team to see it in your own work:</p>
-    </div>
-    <div class="chips ba-chips" id="ba-chips" role="group" aria-label="Example by department"></div>
-
-    <div class="ba">
-      <div class="col before">
-        <span class="tag">Vague in</span>
-        <span class="ba-sub">What most people type</span>
-        <p id="ba-before"></p>
-      </div>
-      <div class="mid">→</div>
-      <div class="col after">
-        <span class="tag">Clear out</span>
-        <span class="ba-sub">The same ask, written as a brief</span>
-        <p id="ba-after"></p>
-      </div>
-    </div>
-    <div class="balegend">
-      <span><span class="sw" style="background:var(--c-goal)"></span> Goal — what you want</span>
-      <span><span class="sw" style="background:var(--c-context)"></span> Context — why / for whom</span>
-      <span><span class="sw" style="background:var(--c-expect)"></span> Expectations — format &amp; tone</span>
-      <span><span class="sw" style="background:var(--c-source)"></span> Source — what to use</span>
-    </div>
-
     <nav class="toc" aria-label="On this page">
       <span class="toc-label">On this page</span>
       <ol class="toc-list">
         <li><a href="#framework"><span class="toc-num">01</span> The framework</a></li>
-        <li><a href="#library"><span class="toc-num">02</span> The library</a></li>
-        <li><a href="#mistakes"><span class="toc-num">03</span> Common mistakes</a></li>
+        <li><a href="#vague-clear"><span class="toc-num">02</span> Vague in, clear out</a></li>
+        <li><a href="#library"><span class="toc-num">03</span> The library</a></li>
+        <li><a href="#mistakes"><span class="toc-num">04</span> Common mistakes</a></li>
         <li><a href="#governance"><span class="toc-num">—</span> Use it well, use it safely</a></li>
       </ol>
     </nav>
@@ -769,11 +741,43 @@
   </div>
 </section>
 
+<!-- ===== VAGUE IN, CLEAR OUT ===== -->
+<section id="vague-clear">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02 / SEE THE DIFFERENCE</span>
+      <h2>Vague in, <span class="hl2">clear out.</span></h2>
+      <p>"Vague in" is what most people type. "Clear out" is the same request rewritten with the four blocks — same ask, dramatically better answer. Pick your team to see it in your own work:</p>
+    </div>
+    <div class="chips ba-chips" id="ba-chips" role="group" aria-label="Example by department"></div>
+
+    <div class="ba">
+      <div class="col before">
+        <span class="tag">Vague in</span>
+        <span class="ba-sub">What most people type</span>
+        <p id="ba-before"></p>
+      </div>
+      <div class="mid">→</div>
+      <div class="col after">
+        <span class="tag">Clear out</span>
+        <span class="ba-sub">The same ask, written as a brief</span>
+        <p id="ba-after"></p>
+      </div>
+    </div>
+    <div class="balegend">
+      <span><span class="sw" style="background:var(--c-goal)"></span> Goal — what you want</span>
+      <span><span class="sw" style="background:var(--c-context)"></span> Context — why / for whom</span>
+      <span><span class="sw" style="background:var(--c-expect)"></span> Expectations — format &amp; tone</span>
+      <span><span class="sw" style="background:var(--c-source)"></span> Source — what to use</span>
+    </div>
+  </div>
+</section>
+
 <!-- ===== LIBRARY ===== -->
 <section id="library">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num">02 / THE LIBRARY</span>
+      <span class="sec-num">03 / THE LIBRARY</span>
       <h2>Ready-to-use prompts, by app.</h2>
       <p>Tested patterns for the work we actually do at COEO. Pick one, copy it, swap the bracketed bits for your specifics. The same four-block structure works everywhere — only the app's strengths change.</p>
     </div>
@@ -787,7 +791,7 @@
 <section id="mistakes">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-num">03 / COMMON MISTAKES</span>
+      <span class="sec-num">04 / COMMON MISTAKES</span>
       <h2>Five habits to drop.</h2>
       <p>Most "Copilot got it wrong" stories are really "Copilot wasn't given enough to go on." These are the fixes that move the needle fastest.</p>
     </div>
@@ -864,7 +868,7 @@
     <div class="mode-toggle" role="tablist" aria-label="Builder start mode">
       <button class="mtab active" role="tab" aria-selected="true" data-mode="scratch">Start from scratch</button>
       <button class="mtab dept-tab" role="tab" aria-selected="false" data-mode="dept">
-        <span class="ic">🏢</span> By department <span class="badge">6 teams</span>
+        <span class="ic">🏢</span> By department <span class="badge">7 teams</span>
       </button>
     </div>
 
@@ -1381,6 +1385,14 @@
         {t:" from "}, {c:"f-src", t:"this error log"},
         {t:" — "}, {c:"f-ctx", t:"I need to relay it to a support agent who isn't technical"},
         {t:". "}, {c:"f-exp", t:"Plain English, 3–4 sentences, no code"}, {t:"."}
+      ]},
+    { key:"exec", name:"Executive Leadership",
+      before:"catch me up before this meeting",
+      after:[
+        {c:"f-goal", t:"Summarize the key decisions, risks, and asks"},
+        {t:" from "}, {c:"f-src", t:"this email thread and the attached deck"},
+        {t:" — "}, {c:"f-ctx", t:"I'm walking into the leadership meeting in 15 minutes"},
+        {t:". "}, {c:"f-exp", t:"Five bullets max, one line each, flag anything that needs my decision today"}, {t:"."}
       ]}
   ];
 
@@ -1716,7 +1728,12 @@
         g:"Write a short email to congratulate the support team on hitting our Q3 CSAT target",
         c:"Mention the effort during the migration",
         e:"Warm tone",
-        s:"" }
+        s:"" },
+      { t:"Catch up on a long thread",
+        g:"Summarize this thread into what's been decided and what's still open",
+        c:"I was added late and need to catch up before replying",
+        e:"Two short lists: decisions made, and open questions",
+        s:"this email thread" }
     ]},
     "Word":{ ic:"📄", items:[
       { t:"Onboarding doc from a source",
@@ -1733,7 +1750,12 @@
         g:"Draft a risk assessment outline covering support operations and migration risks",
         c:"For an internal leadership audience",
         e:"Use sections for risk, likelihood, impact, and mitigation",
-        s:"" }
+        s:"" },
+      { t:"Executive summary of a long doc",
+        g:"Write a one-page executive summary of this document",
+        c:"For leadership readers who won't read the full report",
+        e:"Key findings, implications, and recommended next steps",
+        s:"this document" }
     ]},
     "Excel":{ ic:"📊", items:[
       { t:"Summarize KPI data",
@@ -1750,7 +1772,12 @@
         g:"Write an Excel formula that flags any row where resolution time is over 8 hours and the priority column says \"P1\"",
         c:"",
         e:"Explain what the formula does",
-        s:"" }
+        s:"" },
+      { t:"Forecast from history",
+        g:"Project next quarter's ticket volume based on the trend",
+        c:"",
+        e:"Add a forecast column and a one-line summary of the trend",
+        s:"the last 12 months of ticket data in this sheet" }
     ]},
     "PowerPoint":{ ic:"📈", items:[
       { t:"QBR deck from a file",
@@ -1767,7 +1794,12 @@
         g:"Generate a project kick-off presentation for the new voice platform migration",
         c:"",
         e:"Keep it to 8 slides",
-        s:"the topics discussed in this Teams chat" }
+        s:"the topics discussed in this Teams chat" },
+      { t:"Add speaker notes",
+        g:"Write speaker notes for each slide in this deck",
+        c:"I'm presenting to a customer and want to sound natural, not scripted",
+        e:"Two to three conversational sentences per slide",
+        s:"this deck" }
     ]},
     "Teams":{ ic:"👥", items:[
       { t:"Catch up on a channel",
@@ -1784,7 +1816,12 @@
         g:"Draft a short status update on where we are with the migration",
         c:"For the support leads channel",
         e:"Confident but honest about the two items still at risk",
-        s:"" }
+        s:"" },
+      { t:"Prep questions for a meeting",
+        g:"Suggest questions I should ask in tomorrow's vendor review meeting",
+        c:"Based on the issues we've been discussing recently",
+        e:"Five pointed questions, ordered by priority",
+        s:"the #noc-incidents channel and my recent emails with the vendor" }
     ]}
   };
 
@@ -1900,7 +1937,12 @@
           g:"Draft an outline for an internal runbook on handling P1 voice outages",
           c:"The audience is L1 support agents who need to follow it under pressure",
           e:"Step-by-step, friendly tone, covering detection, triage, escalation path, and customer comms",
-          s:"" }
+          s:"" },
+        { t:"Ticket handoff summary",
+          g:"Summarize this ticket's history for a shift handoff",
+          c:"The next agent needs to pick it up without re-reading the whole thread",
+          e:"Timeline of key events, current status, and the immediate next step",
+          s:"this ticket thread" }
       ]},
     { key:"am", name:"Account Management", ic:"📋",
       items:[
@@ -1918,7 +1960,12 @@
           g:"Draft talking points for an upcoming renewal conversation",
           c:"The customer has had two recent escalations but overall usage is up; I want to lead with value, not apologize",
           e:"A short list of 5 talking points, confident and consultative tone",
-          s:"this account's usage data and the escalation history" }
+          s:"this account's usage data and the escalation history" },
+        { t:"QBR follow-up recap",
+          g:"Draft a follow-up email recapping today's QBR",
+          c:"Reinforce the wins we presented and confirm the commitments made on both sides",
+          e:"Short and warm, with a bulleted list of action items and owners",
+          s:"this meeting" }
       ]},
     { key:"sales", name:"Sales", ic:"📈",
       items:[
@@ -1936,7 +1983,12 @@
           g:"Give me talking points to address a prospect's concern about migration downtime",
           c:"This is a competitive deal and the prospect's IT lead raised the concern in our last call",
           e:"A short list of 3-4 points, confident and specific, no overpromising",
-          s:"this call transcript" }
+          s:"this call transcript" },
+        { t:"Prospect research brief",
+          g:"Give me a one-page brief on this prospect before my first call",
+          c:"I want to sound informed about their business and likely pain points",
+          e:"Company overview, recent news, likely telecom pain points, and three discovery questions",
+          s:"their website and recent press releases" }
       ]},
     { key:"finance", name:"Finance", ic:"💵",
       items:[
@@ -1954,7 +2006,12 @@
           g:"Draft a merit increase letter using our standard template",
           c:"This is for an employee whose KPI scores qualified them for a Tier 2 increase",
           e:"Match the tone and structure of our existing template exactly",
-          s:"our merit increase letter template" }
+          s:"our merit increase letter template" },
+        { t:"Overdue invoice reminder",
+          g:"Draft a payment reminder email for an overdue invoice",
+          c:"The account is 45 days past due but is a long-standing customer we want to keep",
+          e:"Firm but courteous, reference the invoice number and amount, and offer a payment plan conversation",
+          s:"this invoice" }
       ]},
     { key:"pm", name:"Project Management", ic:"🗂️",
       items:[
@@ -1972,7 +2029,12 @@
           g:"Generate a project kickoff presentation",
           c:"For the new voice platform migration, audience is the working team, not executives",
           e:"8 slides covering scope, timeline, roles, and first milestones",
-          s:"the topics discussed in this Teams chat" }
+          s:"the topics discussed in this Teams chat" },
+        { t:"Steering committee agenda",
+          g:"Draft an agenda for next week's steering committee meeting",
+          c:"We need decisions on two open risks and a timeline change",
+          e:"Timeboxed items with decision points clearly marked, 45 minutes total",
+          s:"the project plan and last meeting's minutes" }
       ]},
     { key:"eng", name:"Engineering", ic:"🛠️",
       items:[
@@ -1990,7 +2052,35 @@
           g:"Summarize this incident into a postmortem",
           c:"This goes to engineering leadership and needs to be blameless and factual",
           e:"Sections for timeline, root cause, impact, and follow-up action items with owners",
-          s:"the incident timeline and Slack thread" }
+          s:"the incident timeline and Slack thread" },
+        { t:"Change request writeup",
+          g:"Write a change request for updating the SBC firmware",
+          c:"This goes through change advisory review and needs to anticipate their questions",
+          e:"Sections for scope, risk, rollback plan, and maintenance window",
+          s:"the vendor's release notes" }
+      ]},
+    { key:"exec", name:"Executive Leadership", ic:"🏛️",
+      items:[
+        { t:"Pre-meeting brief",
+          g:"Summarize the key decisions, risks, and asks I need to know before this meeting",
+          c:"I'm walking in with 15 minutes to prepare",
+          e:"Five bullets max, one line each, flag anything that needs my decision today",
+          s:"this email thread and the attached deck" },
+        { t:"All-hands announcement",
+          g:"Draft an all-company message announcing our Q3 results and priorities for Q4",
+          c:"The quarter was strong but Q4 targets are aggressive; tone should be confident and appreciative",
+          e:"Under 250 words, open with the win, close with the ask",
+          s:"the Q3 results summary" },
+        { t:"Board-ready summary",
+          g:"Turn this operational report into a board-ready summary",
+          c:"The audience is board members who care about trends and risk, not operational detail",
+          e:"One page: headline metrics, three trends, and top risks with mitigation",
+          s:"this monthly operations report" },
+        { t:"Strategic escalation response",
+          g:"Draft a response to this escalation from a strategic customer's CEO",
+          c:"They're frustrated about repeated outages; I want to take ownership without overpromising",
+          e:"Brief, direct, executive tone; commit to a follow-up call this week",
+          s:"this email" }
       ]}
   ];
 
