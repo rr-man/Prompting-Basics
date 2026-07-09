@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+  The Prompt Brief — COEO AI Enablement
+  Version: 1.7.1
+  Changelog: see CHANGELOG.md in this repository
+  On each alteration: bump this version, the footer version, and add a CHANGELOG entry.
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -550,8 +556,22 @@
   footer .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
   footer b{color:var(--ink-2)}
   footer .mono{font-size:11.5px;letter-spacing:.04em}
+  .footer-ver{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-3);background:var(--mist);padding:1px 7px;border-radius:5px;margin-left:4px}
 
   /* start-from-scratch confirmation modal */
+  /* copy toast — fixed, does not move the page */
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(12px);
+    display:inline-flex;align-items:center;gap:9px;z-index:120;
+    background:var(--ink);color:#fff;font-family:"Inter";font-size:14px;font-weight:600;
+    padding:12px 18px;border-radius:12px;box-shadow:var(--shadow-lg);
+    opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;
+  }
+  .toast[hidden]{display:none}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast svg{width:18px;height:18px;color:#6FD3B0;flex:none}
+  .toast.err svg{color:#E2A07A}
+
   .modal-overlay{
     position:fixed;inset:0;background:rgba(26,53,96,.45);backdrop-filter:blur(3px);
     display:grid;place-items:center;z-index:100;padding:20px;
@@ -792,7 +812,7 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="sec-num">04 / COMMON MISTAKES</span>
-      <h2>Five habits to drop.</h2>
+      <h2>Six habits to drop.</h2>
       <p>Most "Copilot got it wrong" stories are really "Copilot wasn't given enough to go on." These are the fixes that move the needle fastest.</p>
     </div>
 
@@ -1278,6 +1298,12 @@
 </div>
 <!-- ===== /VIEW: VIDEO TUTORIALS ===== -->
 
+<!-- ===== COPY TOAST ===== -->
+<div class="toast" id="toast" role="status" aria-live="polite" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z"/></svg>
+  <span id="toast-msg">Copied to clipboard</span>
+</div>
+
 <!-- ===== START FROM SCRATCH CONFIRMATION MODAL ===== -->
 <div class="modal-overlay" id="scratch-modal" hidden role="dialog" aria-modal="true" aria-labelledby="scratch-modal-title">
   <div class="modal">
@@ -1301,7 +1327,7 @@
           <path fill="#fff" d="M8.1 18.3H5.4V9.7h2.7v8.6zM6.75 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12zM18.6 18.3h-2.7v-4.2c0-1-.02-2.29-1.4-2.29-1.4 0-1.61 1.09-1.61 2.22v4.27h-2.7V9.7h2.59v1.17h.04c.36-.68 1.24-1.4 2.55-1.4 2.73 0 3.23 1.8 3.23 4.13v4.7z"/>
         </svg>
       </a>
-      <span>Built for <b>COEO Solutions</b> · part of the COEO AI Enablement program</span>
+      <span>Built for <b>COEO Solutions</b> · part of the COEO AI Enablement program <span class="footer-ver">v1.7.1</span></span>
     </div>
     <span class="mono">FRAMEWORK: GOAL · CONTEXT · EXPECTATIONS · SOURCE — Microsoft 365 Copilot</span>
   </div>
@@ -1436,7 +1462,8 @@
     { id:"1207915788", title:"Copilot for Finance", ratio:56.07 },
     { id:"1207915791", title:"Copilot for Sales", ratio:56.51 },
     { id:"1207915790", title:"Copilot and Agents", ratio:56.51 },
-    { id:"1208213927", title:"Copilot for IT", ratio:56.28 }
+    { id:"1208213927", title:"Copilot for IT", ratio:56.28 },
+    { id:"1208486675", title:"Copilot for Executives", ratio:56.38 }
   ];
 
   const vimeoTabsEl = document.getElementById('vimeo-tabs');
@@ -1656,8 +1683,8 @@
   const copiedMsg = document.getElementById('copied-msg');
   copyBtn.addEventListener('click', ()=>{
     const text = assemble();
-    if(!text){ flashCopied('Add a goal first', false); return; }
-    copyText(text, ()=>flashCopied('Copied ✓', true), ()=>flashCopied('Copy failed', false));
+    if(!text){ flashCopied('Add a goal first', false); showToast('Add a goal first', false); return; }
+    copyText(text, ()=>{ flashCopied('Copied ✓', true); showToast('Copied to clipboard'); }, ()=>{ flashCopied('Copy failed', false); showToast('Copy failed', false); });
   });
 
   function flashCopied(msg, ok){
@@ -1665,6 +1692,24 @@
     copiedMsg.style.color = ok ? '#6FD3B0' : '#E2A07A';
     copiedMsg.classList.add('show');
     setTimeout(()=>copiedMsg.classList.remove('show'), 1900);
+  }
+
+  /* floating toast — fixed position, never scrolls or shifts the page */
+  const toastEl = document.getElementById('toast');
+  const toastMsgEl = document.getElementById('toast-msg');
+  let toastTimer = null;
+  function showToast(msg, ok=true){
+    toastMsgEl.textContent = msg;
+    toastEl.classList.toggle('err', !ok);
+    toastEl.hidden = false;
+    // force reflow so the transition runs even on rapid repeat clicks
+    void toastEl.offsetWidth;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=>{
+      toastEl.classList.remove('show');
+      setTimeout(()=>{ toastEl.hidden = true; }, 220);
+    }, 1800);
   }
 
   document.getElementById('clear-btn').addEventListener('click', ()=>{
@@ -1681,8 +1726,9 @@
   function fallback(text,onOk,onErr){
     try{
       const ta=document.createElement('textarea');
-      ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
-      document.body.appendChild(ta); ta.focus(); ta.select();
+      ta.value=text; ta.style.position='fixed'; ta.style.top='0'; ta.style.left='0'; ta.style.opacity='0';
+      document.body.appendChild(ta);
+      ta.focus({preventScroll:true}); ta.select();
       const ok=document.execCommand('copy');
       document.body.removeChild(ta);
       ok?onOk():onErr();
@@ -1900,8 +1946,9 @@
       copyBtn.addEventListener('click',()=>{
         copyText(preview, ()=>{
           copyBtn.textContent='Copied ✓'; copyBtn.classList.add('done');
+          showToast('Copied to clipboard');
           setTimeout(()=>{ copyBtn.textContent='Copy'; copyBtn.classList.remove('done'); },1700);
-        }, ()=>{ copyBtn.textContent='Failed'; setTimeout(()=>copyBtn.textContent='Copy',1700); });
+        }, ()=>{ copyBtn.textContent='Failed'; showToast('Copy failed', false); setTimeout(()=>copyBtn.textContent='Copy',1700); });
       });
 
       const useBtn=card.querySelector('.lib-use');
