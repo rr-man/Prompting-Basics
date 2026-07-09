@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   The Prompt Brief — COEO AI Enablement
-  Version: 1.7.1
+  Version: 1.8.0
   Changelog: see CHANGELOG.md in this repository
   On each alteration: bump this version, the footer version, and add a CHANGELOG entry.
 -->
@@ -618,7 +618,30 @@
     display:block;margin-bottom:6px;
   }
   .embed-title{margin:0 0 16px;font-size:20px;font-weight:600;font-family:"Space Grotesk";color:var(--ink)}
-  .vimeo-embed{max-width:820px;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
+
+  .vlib{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
+  .vlib-list{display:flex;flex-direction:column;gap:8px}
+  .vlib-item{
+    appearance:none;text-align:left;cursor:pointer;width:100%;
+    display:flex;align-items:center;gap:11px;
+    background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 14px;
+    font-family:"Inter";font-size:14px;font-weight:600;color:var(--ink-2);
+    transition:border-color .15s,background .15s,color .15s,box-shadow .15s;
+  }
+  .vlib-item:hover{border-color:var(--gold);color:var(--ink)}
+  .vlib-item.active{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:var(--shadow)}
+  .vlib-item .v-ic{
+    width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;
+    background:var(--gold-soft);color:var(--gold);transition:background .15s,color .15s;
+  }
+  .vlib-item.active .v-ic{background:rgba(255,255,255,.16);color:#fff}
+  .vlib-item .v-ic svg{width:15px;height:15px}
+  .vimeo-embed{border-radius:14px;overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
+  @media(max-width:720px){
+    .vlib{grid-template-columns:1fr;gap:16px}
+    .vlib-list{flex-direction:row;flex-wrap:wrap}
+    .vlib-item{width:auto;flex:1 1 auto}
+  }
 
   @media(prefers-reduced-motion:reduce){
     *{transition:none!important;animation:none!important}
@@ -1283,8 +1306,12 @@
     <div class="embed-block">
       <span class="embed-tag">COEO Internal · Watch it right here</span>
       <h3 class="embed-title">Internal video library</h3>
-      <div class="tabs" id="vimeo-tabs"></div>
-      <div class="vimeo-embed" id="vimeo-player"></div>
+      <div class="vlib">
+        <div class="vlib-list" id="vimeo-list" role="tablist" aria-label="Internal videos"></div>
+        <div class="vlib-player">
+          <div class="vimeo-embed" id="vimeo-player"></div>
+        </div>
+      </div>
     </div>
     <script src="https://player.vimeo.com/api/player.js"></script>
   </div>
@@ -1327,7 +1354,7 @@
           <path fill="#fff" d="M8.1 18.3H5.4V9.7h2.7v8.6zM6.75 8.5a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 0 1 0 3.12zM18.6 18.3h-2.7v-4.2c0-1-.02-2.29-1.4-2.29-1.4 0-1.61 1.09-1.61 2.22v4.27h-2.7V9.7h2.59v1.17h.04c.36-.68 1.24-1.4 2.55-1.4 2.73 0 3.23 1.8 3.23 4.13v4.7z"/>
         </svg>
       </a>
-      <span>Built for <b>COEO Solutions</b> · part of the COEO AI Enablement program <span class="footer-ver">v1.7.1</span></span>
+      <span>Built for <b>COEO Solutions</b> · part of the COEO AI Enablement program <span class="footer-ver">v1.8.0</span></span>
     </div>
     <span class="mono">FRAMEWORK: GOAL · CONTEXT · EXPECTATIONS · SOURCE — Microsoft 365 Copilot</span>
   </div>
@@ -1466,7 +1493,7 @@
     { id:"1208486675", title:"Copilot for Executives", ratio:56.38 }
   ];
 
-  const vimeoTabsEl = document.getElementById('vimeo-tabs');
+  const vimeoListEl = document.getElementById('vimeo-list');
   const vimeoPlayerEl = document.getElementById('vimeo-player');
 
   function renderVimeoPlayer(idx){
@@ -1478,17 +1505,23 @@
       'frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" '+
       'referrerpolicy="strict-origin-when-cross-origin" '+
       'style="position:absolute;top:0;left:0;width:100%;height:100%;" title="MS 365 '+v.title+'"></iframe></div>';
-    vimeoTabsEl.querySelectorAll('.tab').forEach((t,i)=>{
-      t.classList.toggle('active', i===idx);
+    vimeoListEl.querySelectorAll('.vlib-item').forEach((t,i)=>{
+      const on = i===idx;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
     });
   }
 
   vimeoVideos.forEach((v,i)=>{
     const b=document.createElement('button');
-    b.className='tab'+(i===0?' active':'');
-    b.innerHTML='<span class="ic">🎬</span>'+v.title;
+    b.className='vlib-item'+(i===0?' active':'');
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-selected', i===0 ? 'true' : 'false');
+    b.innerHTML=
+      '<span class="v-ic"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span>'+
+      '<span>'+v.title+'</span>';
     b.addEventListener('click', ()=>renderVimeoPlayer(i));
-    vimeoTabsEl.appendChild(b);
+    vimeoListEl.appendChild(b);
   });
   renderVimeoPlayer(0);
 
